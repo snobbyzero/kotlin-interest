@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="loginInfo"
+            type="com.example.kotlin_interest.view.fragment.login.LoginInfo" />
+
+        <variable
+            name="registerViewModel"
+            type="com.example.kotlin_interest.view.fragment.register.RegisterViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.register.RegisterFragment">
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="loginInfo"
+            type="com.example.kotlin_interest.view.fragment.login.LoginInfo" />
+
+        <variable
+            name="loginViewModel"
+            type="com.example.kotlin_interest.view.fragment.login.LoginViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.login.LoginFragment">
+
+        <EditText
+            android:id="@+id/usernameLoginEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/passwordLoginEditText"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_username"
+            android:text="@={loginInfo.username}" />
+
+        <EditText
+            android:id="@+id/passwordLoginEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_password"
+            android:inputType="textWebPassword"
+            android:text="@={loginInfo.password}" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/passwordLoginEditText"
+            android:text="@string/title_activity_login" />
+    </RelativeLayout>
+</layout>
