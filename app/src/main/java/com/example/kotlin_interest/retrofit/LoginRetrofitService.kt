@@ -29,5 +29,5 @@ interface LoginRetrofitService {
     suspend fun updateTokens(
         @Query("refreshToken") refreshToken: String,
         @Query("fingerprint") fingerprint: String
-    )
+    ) : Response<JwtResponse>
 }
