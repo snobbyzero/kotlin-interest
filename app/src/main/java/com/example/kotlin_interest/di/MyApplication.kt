@@ -1,6 +1,5 @@
 package com.example.kotlin_interest.di
 
-import android.app.Activity
 import android.app.Application
 import com.example.kotlin_interest.di.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector

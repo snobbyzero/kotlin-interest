@@ -15,4 +15,5 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract fun contributeLoginActivityAndroidInjector() : LoginActivity
+
 }
