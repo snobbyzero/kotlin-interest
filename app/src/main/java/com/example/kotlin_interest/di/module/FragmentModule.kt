@@ -1,6 +1,7 @@
 package com.example.kotlin_interest.di.module
 
 import com.example.kotlin_interest.di.annotation.FragmentScope
+import com.example.kotlin_interest.view.fragment.dialogs.DialogsFragment
 import com.example.kotlin_interest.view.fragment.home.HomeFragment
 import com.example.kotlin_interest.view.fragment.login.LoginFragment
 import com.example.kotlin_interest.view.fragment.register.RegisterFragment
@@ -21,4 +22,8 @@ abstract class FragmentModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributesHomeFragment() : HomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun contributeDialogsFragment() : DialogsFragment
 }
