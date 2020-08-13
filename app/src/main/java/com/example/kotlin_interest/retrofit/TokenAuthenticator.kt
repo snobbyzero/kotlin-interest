@@ -27,8 +27,8 @@ class TokenAuthenticator @Inject constructor(val sessionManager: SessionManager,
         var token: JwtResponse? = null
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
             val jwtResponse = loginRetrofitService.get().updateTokens(
-                sessionManager.getRefreshToken()!!,
-                sessionManager.getAccessToken()!!
+                sessionManager.getRefreshToken(),
+                sessionManager.getAccessToken()
             )
             if (jwtResponse.isSuccessful) {
                 token = jwtResponse.body()

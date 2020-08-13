@@ -13,5 +13,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="home">Home</string>
+    <string name="dialogs">Dialogs</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">NavHeaderDescr</string>
+    <string name="sign_up">Sign up</string>
+    <string name="signup_text">Not a member? Sign up now</string>
+    <string name="prompt_age">Age</string>
+    <string name="male_rb">Male</string>
+    <string name="female_rb">Female</string>
+    <string name="prompt_description">Tell about yourself</string>
+    <string name="next">Next</string>
+    <string name="profile">Profile</string>
 </resources>

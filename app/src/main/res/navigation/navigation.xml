@@ -3,10 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/nav_home">
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/nav_home"
         android:name="com.example.kotlin_interest.view.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_dialogs"
+        android:name="com.example.kotlin_interest.view.fragment.dialogs.DialogsFragment"
+        android:label="fragment_dialogs"
+        tools:layout="@layout/fragment_dialogs" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.kotlin_interest.view.fragment.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

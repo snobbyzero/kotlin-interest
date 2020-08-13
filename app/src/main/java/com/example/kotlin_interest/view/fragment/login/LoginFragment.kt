@@ -1,32 +1,42 @@
 package com.example.kotlin_interest.view.fragment.login
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.kotlin_interest.R
 
 import com.example.kotlin_interest.databinding.FragmentLoginBinding
 import com.example.kotlin_interest.util.SessionManager
 import com.example.kotlin_interest.view.activity.MainActivity
+import com.example.kotlin_interest.view.fragment.register.RegisterFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.activity_login.view.*
 import javax.inject.Inject
 
 class LoginFragment : DaggerFragment() {
 
-    @Inject lateinit var modelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var modelFactory: ViewModelProvider.Factory
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
-    @Inject lateinit var logInfo: LoginInfo
-    @Inject lateinit var sessionManager: SessionManager
+    @Inject
+    lateinit var logInfo: LoginInfo
+    @Inject
+    lateinit var sessionManager: SessionManager
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,18 +49,37 @@ class LoginFragment : DaggerFragment() {
         binding.apply {
             loginInfo = logInfo
         }
-        binding.loginButton.setOnClickListener {
-            Snackbar.make(binding.root, logInfo.username, Snackbar.LENGTH_SHORT)
+        binding.signinButton.setOnClickListener {
             loginViewModel.signIn(logInfo)
         }
 
+        binding.signupTextView.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if (event?.action == MotionEvent.ACTION_UP) {
+                    val manager = activity!!.supportFragmentManager
+                    val tag = "reg"
+                    if (manager.findFragmentByTag(tag) == null) {
+                        manager.beginTransaction()
+                            .addToBackStack(tag)
+                            .replace(R.id.fragmentContent, RegisterFragment.newInstance())
+                            .commit()
+                    }
+                    Toast.makeText(
+                        context,
+                        manager.backStackEntryCount.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return true
+            }
+
+        })
 
         loginViewModel = ViewModelProvider(this, modelFactory)[LoginViewModel::class.java]
         observe(binding.root)
 
         return binding.root
     }
-
 
 
     private fun observe(view: View) {
