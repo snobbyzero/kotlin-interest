@@ -1,6 +1,8 @@
 package com.example.kotlin_interest.di.component
 
 import android.app.Application
+import com.bumptech.glide.Glide
+import com.example.kotlin_interest.GlideModule
 import com.example.kotlin_interest.di.MyApplication
 import com.example.kotlin_interest.di.module.*
 import dagger.BindsInstance
@@ -17,7 +19,8 @@ import javax.inject.Singleton
     ActivityModule::class,
     FragmentModule::class,
     LoginInfoModule::class,
-    AppModule::class
+    AppModule::class,
+    GlideBuilderModule::class
 ])
 interface ApplicationComponent : AndroidInjector<MyApplication> {
 

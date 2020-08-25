@@ -10,7 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 
 import com.example.kotlin_interest.R
+import com.example.kotlin_interest.databinding.FragmentHomeBinding
 import com.example.kotlin_interest.databinding.FragmentProfileBinding
+import com.example.kotlin_interest.databinding.FragmentRegisterBinding
 import com.example.kotlin_interest.view.fragment.home.HomeFragment
 import com.example.kotlin_interest.view.fragment.home.HomeViewModel
 import dagger.android.support.AndroidSupportInjection
@@ -30,8 +32,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = DataBindingUtil.inflate<FragmentProfileBinding>(inflater, R.layout.fragment_home, container, false)
-
+        val binding = FragmentHomeBinding.inflate(inflater, container, false)
         profileViewModel = ViewModelProvider(this, modelFactory)[ProfileViewModel::class.java]
 
         return binding.root

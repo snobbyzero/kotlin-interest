@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentHomeBinding
 import com.example.kotlin_interest.databinding.FragmentLoginBinding
+import com.example.kotlin_interest.databinding.FragmentRegisterBinding
 import com.example.kotlin_interest.view.fragment.register.RegisterViewModel
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
@@ -28,7 +29,7 @@ class HomeFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = DataBindingUtil.inflate<FragmentHomeBinding>(inflater, R.layout.fragment_home, container, false)
+        val binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         homeViewModel = ViewModelProvider(this, modelFactory)[HomeViewModel::class.java]
 

@@ -1,8 +1,7 @@
 package com.example.kotlin_interest.di.module
 
-import com.example.kotlin_interest.retrofit.LoginRetrofitService
-import com.example.kotlin_interest.retrofit.TokenAuthenticator
-import com.example.kotlin_interest.retrofit.TokenInterceptor
+import com.example.kotlin_interest.retrofit.*
+import com.example.kotlin_interest.util.SessionManager
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -16,7 +15,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory) : Retrofit = Retrofit.Builder()
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit = Retrofit.Builder()
         .baseUrl("https://interest-project.herokuapp.com")
         .client(okHttpClient)
         .addConverterFactory(gsonConverterFactory)
@@ -24,7 +26,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(tokenInterceptor: TokenInterceptor, tokenAuthenticator : TokenAuthenticator) : OkHttpClient {
+    fun provideOkHttp(
+        tokenInterceptor: TokenInterceptor,
+        tokenAuthenticator: TokenAuthenticator
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .authenticator(tokenAuthenticator)
             .addInterceptor(tokenInterceptor)
@@ -33,13 +38,25 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideLoginRetrofitService(retrofit: Retrofit) : LoginRetrofitService = retrofit.create(LoginRetrofitService::class.java)
+    fun provideLoginRetrofitService(retrofit: Retrofit): LoginRetrofitService =
+        retrofit.create(LoginRetrofitService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideValidationRetrofitService(retrofit: Retrofit): ValidationRetrofitService =
+        retrofit.create(ValidationRetrofitService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideImageRetrofitService(retrofit: Retrofit): ImageRetrofitService =
+        retrofit.create(ImageRetrofitService::class.java)
 
     @Provides
     @Singleton
-    fun provideGson() : Gson = Gson()
+    fun provideGson(): Gson = Gson()
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory() : GsonConverterFactory = GsonConverterFactory.create()
+    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
+
 }

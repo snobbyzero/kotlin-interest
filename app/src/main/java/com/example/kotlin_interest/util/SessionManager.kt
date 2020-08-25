@@ -1,13 +1,11 @@
 package com.example.kotlin_interest.util
 
-import android.content.Context
 import android.content.SharedPreferences
-import com.example.kotlin_interest.model.JwtResponse
+import com.example.kotlin_interest.model.JwtTokens
 import com.example.kotlin_interest.model.User
 import com.google.gson.Gson
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class SessionManager @Inject constructor(private val sharedPreferences: SharedPreferences, private val gson: Gson) {
 
@@ -22,9 +20,11 @@ class SessionManager @Inject constructor(private val sharedPreferences: SharedPr
         json.let { return gson.fromJson(it, User::class.java) }
     }
 
+    fun getImageToken() : String? = sharedPreferences.getString(IMAGE_TOKEN, "")
+
     fun getLoggedIn() : Boolean = sharedPreferences.getBoolean(LOGGED_IN, false)
 
-    fun saveTokens(jwtResponse: JwtResponse) {
+    fun saveTokens(jwtResponse: JwtTokens) {
         val editor = sharedPreferences.edit()
         editor.putString(ACCESS_TOKEN, jwtResponse.accessToken)
         editor.putString(REFRESH_TOKEN, jwtResponse.refreshToken)
@@ -32,6 +32,8 @@ class SessionManager @Inject constructor(private val sharedPreferences: SharedPr
     }
 
     fun saveUser(user: User) = sharedPreferences.edit().putString(USER, gson.toJson(user)).apply()
+
+    fun saveImageToken(token: String) = sharedPreferences.edit().putString(IMAGE_TOKEN, token).apply()
 
     private fun createAndSaveFingerprint() : String {
         val fingerprint = UUID.randomUUID().toString()
@@ -53,5 +55,6 @@ class SessionManager @Inject constructor(private val sharedPreferences: SharedPr
         const val USER = "USER"
         const val FINGERPRINT = "FINGERPRINT"
         const val LOGGED_IN = "LOGGED_IN"
+        const val IMAGE_TOKEN = "IMAGE_TOKEN"
     }
 }

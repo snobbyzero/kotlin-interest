@@ -1,35 +1,33 @@
-package com.example.kotlin_interest.view.fragment.login
+package com.example.kotlin_interest.view.fragment.description
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.kotlin_interest.model.JwtTokens
 import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.retrofit.LoginRetrofitService
 import com.example.kotlin_interest.util.SessionManager
+import com.example.kotlin_interest.view.fragment.login.LoginInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(
+class DescriptionViewModel @Inject constructor(
     private val loginRetrofitService: LoginRetrofitService,
-    private val sessionManager: SessionManager,
-    var loginInfo: LoginInfo
-) : ViewModel() {
+    private val sessionManager: SessionManager
+) :
+    ViewModel() {
 
-    private var responseJwt: MutableLiveData<JwtTokens> = MutableLiveData()
-    private var errorMsg: MutableLiveData<String> = MutableLiveData()
+    val description = MutableLiveData<String>()
+    private val responseJwt: MutableLiveData<JwtTokens> = MutableLiveData()
+    private val errorMsg: MutableLiveData<String> = MutableLiveData()
+    private var user: User? = null
 
     fun getErrorMsg() : LiveData<String> = errorMsg
     fun getTokenResponse() : LiveData<JwtTokens> = responseJwt
 
-    fun signIn() {
-        checkLoginInfo(loginInfo)?.let {
-            errorMsg.postValue(it)
-            return
-        }
+    private fun signIn(loginInfo: LoginInfo) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = loginRetrofitService.postCreateAuthToken(loginInfo, sessionManager.getFingerprint())
@@ -51,10 +49,14 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun checkLoginInfo(loginInfo: LoginInfo) : String? {
-        if (loginInfo.username == "") return "Enter your username"
-        if (loginInfo.password == "") return "Enter your password"
-        return null
+
+    suspend fun register(user: User) {
+        user.description = description.value ?: ""
+        withContext(Dispatchers.IO) {
+            val rUser = loginRetrofitService.postRegister(user)
+            signIn(LoginInfo(user.username, user.password))
+        }
     }
+
 
 }

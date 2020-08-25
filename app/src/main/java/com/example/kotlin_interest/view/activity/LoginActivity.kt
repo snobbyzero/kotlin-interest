@@ -1,5 +1,6 @@
 package com.example.kotlin_interest.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.ActivityLoginBinding
 import com.example.kotlin_interest.databinding.ActivityMainBinding
+import com.example.kotlin_interest.util.SessionManager
 import com.example.kotlin_interest.view.fragment.login.LoginFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -24,6 +26,8 @@ class LoginActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
+    @Inject lateinit var sessionManager: SessionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -36,4 +40,5 @@ class LoginActivity : DaggerAppCompatActivity() {
             .replace(R.id.fragmentContent, LoginFragment.newInstance())
             .commit()
     }
+
 }

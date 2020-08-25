@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_interest.di.ViewModelFactory
 import com.example.kotlin_interest.di.annotation.ViewModelKey
+import com.example.kotlin_interest.view.fragment.description.DescriptionViewModel
 import com.example.kotlin_interest.view.fragment.dialogs.DialogsViewModel
 import com.example.kotlin_interest.view.fragment.home.HomeViewModel
+import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerViewModel
 import com.example.kotlin_interest.view.fragment.login.LoginViewModel
 import com.example.kotlin_interest.view.fragment.profile.ProfileViewModel
 import com.example.kotlin_interest.view.fragment.register.RegisterViewModel
@@ -43,5 +45,15 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     abstract fun bindProfileViewModel(viewModel: ProfileViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DescriptionViewModel::class)
+    abstract fun bindDescriptionViewModel(viewModel: DescriptionViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ImagePickerViewModel::class)
+    abstract fun bindImagePickerViewModel(viewModel: ImagePickerViewModel) : ViewModel
 
 }

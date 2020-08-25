@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="user"
-            type="com.example.kotlin_interest.model.User" />
-
-        <variable
             name="registerViewModel"
             type="com.example.kotlin_interest.view.fragment.register.RegisterViewModel" />
     </data>
@@ -19,69 +15,77 @@
         android:layout_height="match_parent"
         tools:context=".view.fragment.register.RegisterFragment">
 
-        <ImageButton
-            android:id="@+id/photoButton"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true"/>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/prompt_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/photoButton">
+            app:errorEnabled="true"
+            app:endIconMode="custom"
+            app:error="@{registerViewModel.usernameError}">
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={user.username}"/>
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="@={registerViewModel.username}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/usernameEditText"
             android:layout_centerHorizontal="true"
             android:hint="@string/prompt_password"
-            app:endIconMode="password_toggle">
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:error="@{registerViewModel.passwordError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textWebPassword"
-                android:text="@={user.password}"/>
+                android:text="@={registerViewModel.password}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/passwordEditText"
             android:hint="@string/prompt_email"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:error="@{registerViewModel.emailError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textWebEmailAddress"
-                android:text="@={user.email}"/>
+                android:text="@={registerViewModel.email}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ageEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/emailEditText"
-            android:hint="@string/prompt_age">
+            android:hint="@string/prompt_age"
+            app:errorEnabled="true"
+            app:error="@{registerViewModel.ageError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@={user.age}"/>
+                android:text="@={registerViewModel.age}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
@@ -97,6 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/male_rb"
+                android:buttonTint="@color/colorPrimary"
                 android:textSize="18sp"
                 android:layout_weight="1" />
 
@@ -105,23 +110,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/female_rb"
+                android:buttonTint="@color/colorPrimary"
                 android:textSize="18sp"
                 android:layout_weight="1" />
         </RadioGroup>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/descriptionEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sexRadioGroup"
-            android:hint="@string/prompt_description"
-            app:endIconMode="clear_text">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@={user.description}"/>
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/nextButton"

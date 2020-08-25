@@ -12,12 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentDialogsBinding
 import com.example.kotlin_interest.databinding.FragmentLoginBinding
+import com.example.kotlin_interest.databinding.FragmentRegisterBinding
 import com.example.kotlin_interest.view.fragment.home.HomeFragment
 import com.example.kotlin_interest.view.fragment.home.HomeViewModel
 import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class DialogsFragment : Fragment() {
+class DialogsFragment : DaggerFragment() {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
@@ -28,7 +30,8 @@ class DialogsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = DataBindingUtil.inflate<FragmentDialogsBinding>(inflater, R.layout.fragment_dialogs, container, false)
+        val binding = FragmentDialogsBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
 
         dialogsViewModel = ViewModelProvider(this, modelFactory)[DialogsViewModel::class.java]
 
@@ -43,5 +46,6 @@ class DialogsFragment : Fragment() {
     companion object {
         fun newInstance() = DialogsFragment()
     }
+
 
 }

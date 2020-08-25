@@ -1,6 +1,6 @@
 package com.example.kotlin_interest.retrofit
 
-import com.example.kotlin_interest.model.JwtResponse
+import com.example.kotlin_interest.model.JwtTokens
 import com.example.kotlin_interest.util.SessionManager
 import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TokenAuthenticator @Inject constructor(val sessionManager: SessionManager, val loginRetrofitService: Lazy<LoginRetrofitService>): Authenticator {
+class TokenAuthenticator @Inject constructor(val sessionManager: SessionManager, private val loginRetrofitService: Lazy<LoginRetrofitService>): Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         val token = runBlocking { getNewToken() }
@@ -23,12 +23,12 @@ class TokenAuthenticator @Inject constructor(val sessionManager: SessionManager,
     }
 
 
-    private suspend fun getNewToken() : JwtResponse? {
-        var token: JwtResponse? = null
+    private suspend fun getNewToken() : JwtTokens? {
+        var token: JwtTokens? = null
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
             val jwtResponse = loginRetrofitService.get().updateTokens(
                 sessionManager.getRefreshToken(),
-                sessionManager.getAccessToken()
+                sessionManager.getFingerprint()
             )
             if (jwtResponse.isSuccessful) {
                 token = jwtResponse.body()

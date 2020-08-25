@@ -1,6 +1,7 @@
 package com.example.kotlin_interest.di
 
 import android.app.Application
+import com.example.kotlin_interest.GlideModule
 import com.example.kotlin_interest.di.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

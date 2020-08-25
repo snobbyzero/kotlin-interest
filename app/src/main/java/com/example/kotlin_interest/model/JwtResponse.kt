@@ -1,3 +1,10 @@
 package com.example.kotlin_interest.model
 
-data class JwtResponse(var accessToken: String, var refreshToken: String)
+import com.google.gson.annotations.SerializedName
+
+class JwtResponse (
+    @SerializedName("jwtToken")
+    val jwtTokens: JwtTokens,
+    @SerializedName("user")
+    val user: User
+)

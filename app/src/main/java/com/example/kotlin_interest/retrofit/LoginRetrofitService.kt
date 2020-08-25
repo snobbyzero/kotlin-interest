@@ -1,10 +1,9 @@
 package com.example.kotlin_interest.retrofit
 
 import com.example.kotlin_interest.model.JwtResponse
+import com.example.kotlin_interest.model.JwtTokens
 import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.view.fragment.login.LoginInfo
-import kotlinx.coroutines.Deferred
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -22,12 +21,12 @@ interface LoginRetrofitService {
 
     @Headers("Content-Type: application/json")
     @POST("register")
-    suspend fun postRegister(@Body loginInfo: LoginInfo): User
+    suspend fun postRegister(@Body user: User): User
 
     @Headers("Content-type: application/json")
     @POST("auth/refresh-token")
     suspend fun updateTokens(
         @Query("refreshToken") refreshToken: String,
         @Query("fingerprint") fingerprint: String
-    ) : Response<JwtResponse>
+    ) : Response<JwtTokens>
 }
