@@ -17,6 +17,7 @@ import android.content.ContentResolver
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentImagePickerBinding
 import com.example.kotlin_interest.model.User
+import com.example.kotlin_interest.view.activity.LoginActivity
 import com.example.kotlin_interest.view.activity.MainActivity
 import com.example.kotlin_interest.view.fragment.description.DescriptionFragment
 import dagger.android.support.AndroidSupportInjection
@@ -49,8 +50,12 @@ class ImagePickerFragment : DaggerFragment() {
         imagePickerViewModel =
             ViewModelProvider(this, modelFactory)[ImagePickerViewModel::class.java]
 
+        setupUI()
 
+        return binding.root
+    }
 
+    private fun setupUI() {
         binding.apply {
             nextButton.setOnClickListener {
                 imageUri?.let {
@@ -58,11 +63,15 @@ class ImagePickerFragment : DaggerFragment() {
                         imagePickerViewModel.saveImage(requireActivity().contentResolver.openInputStream(it)!!)
                     }
                 }
-                startActivity(Intent(activity, MainActivity::class.java))
+                when (activity) {
+                    is LoginActivity -> startActivity(Intent(activity, MainActivity::class.java))
+                    is MainActivity -> {
+
+                    }
+                }
             }
             imageButton.setOnClickListener { setImage() }
         }
-        return binding.root
     }
 
     private fun setImage() {
@@ -93,7 +102,9 @@ class ImagePickerFragment : DaggerFragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        startImagePickerActivity()
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            startImagePickerActivity()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

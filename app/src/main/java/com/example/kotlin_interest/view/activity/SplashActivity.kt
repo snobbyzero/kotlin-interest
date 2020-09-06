@@ -17,15 +17,13 @@ class SplashActivity : DaggerAppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-
         val intent = if (sessionManager.getLoggedIn()) {
             Intent(this, MainActivity::class.java)
         } else {
             Intent(this, LoginActivity::class.java)
         }
 
-
-        //val intent = Intent(this, LoginActivity::class.java)
+        // val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
 }

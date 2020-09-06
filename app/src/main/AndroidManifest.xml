@@ -29,11 +29,13 @@
         </activity>
         <activity
             android:name=".view.activity.LoginActivity"
-            android:theme="@style/InterestTheme.NoActionBar">
+            android:theme="@style/InterestTheme"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name=".view.activity.MainActivity"
-            android:theme="@style/InterestTheme.NoActionBar">
+            android:theme="@style/InterestTheme"
+            android:windowSoftInputMode="adjustResize">
 
             <!--
             <intent-filter>

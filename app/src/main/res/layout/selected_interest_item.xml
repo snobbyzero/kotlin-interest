@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="20dp"
+    android:layout_marginEnd="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/adapter_interest_checked_item">
+
+    <TextView
+        android:id="@+id/interestNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="text text text"
+        android:gravity="center"
+        android:paddingEnd="30dp"
+        android:theme="@style/InterestTheme.LightText"
+        android:paddingStart="20dp"/>
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_white_20dp"
+        android:background="@android:color/transparent"
+        android:layout_alignTop="@+id/interestNameTextView"
+        android:layout_alignBottom="@+id/interestNameTextView"
+        android:layout_alignEnd="@+id/interestNameTextView"
+        android:paddingEnd="5dp"/>
+</RelativeLayout>

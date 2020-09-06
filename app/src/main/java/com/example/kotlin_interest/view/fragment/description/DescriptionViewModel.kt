@@ -13,50 +13,24 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class DescriptionViewModel @Inject constructor(
-    private val loginRetrofitService: LoginRetrofitService,
-    private val sessionManager: SessionManager
-) :
-    ViewModel() {
-
-    val description = MutableLiveData<String>()
-    private val responseJwt: MutableLiveData<JwtTokens> = MutableLiveData()
-    private val errorMsg: MutableLiveData<String> = MutableLiveData()
-    private var user: User? = null
-
-    fun getErrorMsg() : LiveData<String> = errorMsg
-    fun getTokenResponse() : LiveData<JwtTokens> = responseJwt
-
-    private fun signIn(loginInfo: LoginInfo) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = loginRetrofitService.postCreateAuthToken(loginInfo, sessionManager.getFingerprint())
-                if (response.isSuccessful) {
-                    val body = response.body()!!
-                    responseJwt.postValue(body.jwtTokens)
-                    // Save tokens
-                    sessionManager.saveTokens(body.jwtTokens)
-                    sessionManager.setLoggedIn(true)
-                    // Save user
-                    sessionManager.saveUser(body.user)
-                } else {
-                    val error = response.errorBody()!!.string()
-                    errorMsg.postValue(error)
-                }
-            } catch (e: Exception) {
-                errorMsg.postValue(e.message)
-            }
+class DescriptionViewModel @Inject constructor() : ViewModel() {
+    val description = MutableLiveData<String>("")
+    val error = MutableLiveData<String>("")
+    fun checkDescription() : Boolean {
+        if (description.value!!.length < MIN_LENGTH) {
+            error.postValue("Description must have at least 20 characters")
+            return false
+        } else if (description.value!!.length > MAX_LENGTH) {
+            error.postValue("Description's length can't be more than 100 characters")
+            return false
+        } else {
+            error.postValue("")
+            return true
         }
     }
 
-
-    suspend fun register(user: User) {
-        user.description = description.value ?: ""
-        withContext(Dispatchers.IO) {
-            val rUser = loginRetrofitService.postRegister(user)
-            signIn(LoginInfo(user.username, user.password))
-        }
+    companion object {
+        const val MIN_LENGTH = 20
+        const val MAX_LENGTH = 100
     }
-
-
 }

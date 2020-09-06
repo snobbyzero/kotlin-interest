@@ -21,22 +21,25 @@
             android:layout_height="wrap_content"
             android:hint="@string/prompt_description"
             app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:error="@{descriptionViewModel.error}"
             app:counterEnabled="true"
-            app:counterMaxLength="100">
+            app:counterMaxLength="@{descriptionViewModel.MAX_LENGTH}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@={descriptionViewModel.description}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/nextButton"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
+            android:background="@drawable/roundcorner"
             android:layout_marginBottom="15dp"
-            android:layout_marginEnd="25dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             android:text="@string/next"
             android:textSize="18sp" />
 

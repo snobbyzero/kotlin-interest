@@ -3,14 +3,17 @@ package com.example.kotlin_interest.view.fragment.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.example.kotlin_interest.model.JwtResponse
 import com.example.kotlin_interest.model.JwtTokens
-import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.retrofit.LoginRetrofitService
+import com.example.kotlin_interest.util.NetworkUtil
+import com.example.kotlin_interest.util.Resource
 import com.example.kotlin_interest.util.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import retrofit2.Response
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
@@ -19,42 +22,67 @@ class LoginViewModel @Inject constructor(
     var loginInfo: LoginInfo
 ) : ViewModel() {
 
-    private var responseJwt: MutableLiveData<JwtTokens> = MutableLiveData()
-    private var errorMsg: MutableLiveData<String> = MutableLiveData()
+    private val responseJwt: MutableLiveData<JwtTokens> = MutableLiveData()
+    private val errorMsg: MutableLiveData<String> = MutableLiveData()
+    val usernameError = MutableLiveData<String>()
+    val passwordError = MutableLiveData<String>()
 
-    fun getErrorMsg() : LiveData<String> = errorMsg
-    fun getTokenResponse() : LiveData<JwtTokens> = responseJwt
-
-    fun signIn() {
-        checkLoginInfo(loginInfo)?.let {
-            errorMsg.postValue(it)
-            return
-        }
-        CoroutineScope(Dispatchers.IO).launch {
+    fun getErrorMsg(): LiveData<String> = errorMsg
+    fun getTokenResponse() = liveData(Dispatchers.IO) {
+        if (checkLoginInfo()) {
+            emit(Resource.loading(data = null))
             try {
-                val response = loginRetrofitService.postCreateAuthToken(loginInfo, sessionManager.getFingerprint())
-                if (response.isSuccessful) {
-                    val body = response.body()!!
-                    responseJwt.postValue(body.jwtTokens)
-                    // Save tokens
-                    sessionManager.saveTokens(body.jwtTokens)
-                    sessionManager.setLoggedIn(true)
-                    // Save user
-                    sessionManager.saveUser(body.user)
-                } else {
-                    val error = response.errorBody()!!.string()
-                    errorMsg.postValue(error)
-                }
-            } catch (e: Exception) {
-                errorMsg.postValue(e.message)
+                emit(
+                    Resource.success(
+                        data = loginRetrofitService.postCreateAuthToken(
+                            loginInfo,
+                            sessionManager.getFingerprint()
+                        )
+                    )
+                )
+            } catch (ex: Exception) {
+                emit(Resource.error(data = null, message = ex.message ?: "Error occurred!"))
             }
         }
     }
 
-    private fun checkLoginInfo(loginInfo: LoginInfo) : String? {
-        if (loginInfo.username == "") return "Enter your username"
-        if (loginInfo.password == "") return "Enter your password"
-        return null
+    fun checkResponse(response: Response<JwtResponse>?): Boolean {
+        response?.let {
+            if (it.isSuccessful) {
+                val body = it.body()!!
+                responseJwt.postValue(body.jwtTokens)
+                // Save tokens
+                sessionManager.saveTokens(body.jwtTokens)
+                sessionManager.setLoggedIn(true)
+                // Save user
+                sessionManager.saveUser(body.user)
+
+                return true
+            } else {
+                errorMsg.postValue("Invalid username or password")
+            }
+        }
+        return false
+    }
+
+    fun checkUsername() {
+        if (loginInfo.username == "") {
+            usernameError.postValue("Enter your username")
+        } else {
+            usernameError.postValue("")
+        }
+    }
+
+    fun checkPassword() {
+        if (loginInfo.password == "") passwordError.postValue("Enter your password") else passwordError.postValue(
+            ""
+        )
+    }
+
+    private fun checkLoginInfo(): Boolean {
+        checkUsername()
+        checkPassword()
+        return usernameError.value == "" && passwordError.value == ""
     }
 
 }

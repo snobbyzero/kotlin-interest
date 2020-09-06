@@ -7,13 +7,13 @@
 
         <variable
             name="registerViewModel"
-            type="com.example.kotlin_interest.view.fragment.register.RegisterViewModel" />
+            type="com.example.kotlin_interest.view.fragment.main_information.MainInformationViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.register.RegisterFragment">
+        tools:context=".view.fragment.main_information.MainInformationFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameEditText"
@@ -30,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+                android:theme="@style/InterestTheme.LightText"
                 android:maxLines="1"
                 android:text="@={registerViewModel.username}" />
 
@@ -51,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textWebPassword"
+                android:theme="@style/InterestTheme.LightText"
                 android:text="@={registerViewModel.password}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textWebEmailAddress"
+                android:theme="@style/InterestTheme.LightText"
                 android:text="@={registerViewModel.email}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,6 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:theme="@style/InterestTheme.LightText"
                 android:text="@={registerViewModel.age}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ageEditText"
+            android:theme="@style/InterestTheme.LightText"
             android:checkedButton="@id/maleRadioButton"
             android:orientation="horizontal">
 
@@ -119,10 +124,10 @@
             android:id="@+id/nextButton"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
+            android:background="@drawable/roundcorner"
             android:layout_marginBottom="15dp"
-            android:layout_marginEnd="25dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             android:text="@string/next"
             android:textSize="18sp" />
 

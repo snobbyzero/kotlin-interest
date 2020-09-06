@@ -17,11 +17,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/logoImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
             android:background="@android:color/transparent"
+            android:adjustViewBounds="true"
             android:layout_above="@id/usernameEditText"
             android:src="@drawable/round_logo"/>
 
@@ -32,6 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/passwordEditText"
+            app:errorEnabled="true"
+            android:theme="@style/InterestTheme.LightText"
+            app:error="@{loginViewModel.usernameError}"
             android:hint="@string/prompt_username">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -49,6 +53,9 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            android:theme="@style/InterestTheme.LightText"
+            app:error="@{loginViewModel.passwordError}"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/prompt_password">
 
@@ -59,22 +66,43 @@
                 android:text="@={loginViewModel.loginInfo.password}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/errorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/passwordEditText"
+            android:textColor="@color/colorRed"
+            android:textAlignment="center"
+            android:theme="@style/InterestTheme.LightText"
+            android:text="@{loginViewModel.errorMsg}"/>
+
         <Button
             android:id="@+id/signinButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/passwordEditText"
+            android:layout_below="@id/errorTextView"
             android:text="@string/title_activity_login" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/signupTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/signinButton"
             android:layout_centerHorizontal="true"
+            android:theme="@style/InterestTheme.LightText"
             android:layout_marginTop="20dp"
             android:text="@string/signup_text" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:theme="@style/ProgressBar"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </layout>

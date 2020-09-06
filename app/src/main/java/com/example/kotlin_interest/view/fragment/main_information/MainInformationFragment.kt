@@ -1,4 +1,4 @@
-package com.example.kotlin_interest.view.fragment.register
+package com.example.kotlin_interest.view.fragment.main_information
 
 import android.content.Context
 import android.graphics.drawable.Animatable
@@ -22,11 +22,11 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.schedule
 
-class RegisterFragment : DaggerFragment() {
+class MainInformationFragment : DaggerFragment() {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
-    private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var mainInformationViewModel: MainInformationViewModel
 
     private lateinit var binding: FragmentRegisterBinding
 
@@ -36,8 +36,16 @@ class RegisterFragment : DaggerFragment() {
     ): View? {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        registerViewModel = ViewModelProvider(this, modelFactory)[RegisterViewModel::class.java]
+        mainInformationViewModel = ViewModelProvider(this, modelFactory)[MainInformationViewModel::class.java]
 
+        setupUI()
+
+        observe()
+
+        return binding.root
+    }
+
+    private fun setupUI() {
         binding.apply {
             setProgressBar(usernameEditText)
             setProgressBar(emailEditText)
@@ -52,6 +60,7 @@ class RegisterFragment : DaggerFragment() {
                         registerViewModel!!.checkUsername()
                     }
                 }
+
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             })
@@ -66,6 +75,7 @@ class RegisterFragment : DaggerFragment() {
                         registerViewModel!!.checkPassword()
                     }
                 }
+
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             })
@@ -80,6 +90,7 @@ class RegisterFragment : DaggerFragment() {
                         registerViewModel!!.checkEmail()
                     }
                 }
+
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             })
@@ -94,20 +105,16 @@ class RegisterFragment : DaggerFragment() {
                         registerViewModel!!.checkAge()
                     }
                 }
+
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             })
 
-            registerViewModel = this@RegisterFragment.registerViewModel
-            lifecycleOwner = this@RegisterFragment
+            registerViewModel = this@MainInformationFragment.mainInformationViewModel
+            lifecycleOwner = this@MainInformationFragment
 
             nextButton.setOnClickListener { onNextButtonClicked() }
-
-
         }
-        observe()
-
-        return binding.root
     }
 
     override fun onAttach(context: Context) {
@@ -117,7 +124,7 @@ class RegisterFragment : DaggerFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = RegisterFragment()
+        fun newInstance() = MainInformationFragment()
 
         @BindingAdapter("app:error")
         @JvmStatic
@@ -138,18 +145,18 @@ class RegisterFragment : DaggerFragment() {
     private fun setProgressBar(textInputLayout: TextInputLayout) {
         textInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
         textInputLayout.endIconDrawable =
-            this@RegisterFragment.requireContext().getProgressBarDrawable()
+            this@MainInformationFragment.requireContext().getProgressBarDrawable()
     }
 
     private fun observe() {
-        registerViewModel.getUsernameCheckCompleted().observe(viewLifecycleOwner, Observer {
+        mainInformationViewModel.getUsernameCheckCompleted().observe(viewLifecycleOwner, Observer {
             when (it) {
                 true -> stopProgressBar(binding.usernameEditText)
                 false -> startProgressBar(binding.usernameEditText)
             }
         })
 
-        registerViewModel.getEmailCheckCompleted().observe(viewLifecycleOwner, Observer {
+        mainInformationViewModel.getEmailCheckCompleted().observe(viewLifecycleOwner, Observer {
             when (it) {
                 true -> stopProgressBar(binding.emailEditText)
                 false -> startProgressBar(binding.emailEditText)
@@ -158,7 +165,7 @@ class RegisterFragment : DaggerFragment() {
     }
 
     private fun onNextButtonClicked() {
-        if (this@RegisterFragment.registerViewModel.checkAllFields()) {
+        if (this@MainInformationFragment.mainInformationViewModel.checkAllFields()) {
             val manager = requireActivity().supportFragmentManager
             val tag = "desc"
             if (manager.findFragmentByTag(tag) == null) {
@@ -166,7 +173,7 @@ class RegisterFragment : DaggerFragment() {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "user",
-                    this@RegisterFragment.registerViewModel.getUser()
+                    this@MainInformationFragment.mainInformationViewModel.getUser()
                 )
                 descriptionFragment.arguments = bundle
                 manager.beginTransaction()

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/backButton"
+        android:icon="@drawable/ic_back"
+        android:title="@string/back"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/nextButton"
+        android:icon="@drawable/ic_next"
+        android:title="@string/next"
+        app:showAsAction="ifRoom" />
+</menu>

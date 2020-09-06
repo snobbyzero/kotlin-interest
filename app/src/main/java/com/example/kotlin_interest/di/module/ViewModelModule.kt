@@ -8,9 +8,10 @@ import com.example.kotlin_interest.view.fragment.description.DescriptionViewMode
 import com.example.kotlin_interest.view.fragment.dialogs.DialogsViewModel
 import com.example.kotlin_interest.view.fragment.home.HomeViewModel
 import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerViewModel
+import com.example.kotlin_interest.view.fragment.interests.InterestsViewModel
 import com.example.kotlin_interest.view.fragment.login.LoginViewModel
 import com.example.kotlin_interest.view.fragment.profile.ProfileViewModel
-import com.example.kotlin_interest.view.fragment.register.RegisterViewModel
+import com.example.kotlin_interest.view.fragment.main_information.MainInformationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -28,8 +29,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(RegisterViewModel::class)
-    abstract fun bindRegisterViewModel(viewModel: RegisterViewModel) : ViewModel
+    @ViewModelKey(MainInformationViewModel::class)
+    abstract fun bindRegisterViewModel(viewModel: MainInformationViewModel) : ViewModel
 
     @Binds
     @IntoMap
@@ -55,5 +56,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ImagePickerViewModel::class)
     abstract fun bindImagePickerViewModel(viewModel: ImagePickerViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InterestsViewModel::class)
+    abstract fun bindInterestsViewModel(viewModel: InterestsViewModel) : ViewModel
 
 }

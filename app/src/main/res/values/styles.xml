@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
     
     <style name="AppTheme.NoActionBar">
@@ -20,14 +20,22 @@
 
     <style name="InterestTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="fontFamily">@font/akzidenzgroteskpro</item>
     </style>
 
-    <style name="InterestTheme.NoActionBar" parent="InterestTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="InterestTheme.BoldText" parent="InterestTheme">
+        <item name="fontFamily">@font/akzidenzgroteskpro_bold</item>
+    </style>
+
+    <style name="InterestTheme.LightText" parent="InterestTheme">
+        <item name="fontFamily">@font/akzidenzgroteskpro_light</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <style name="ProgressBar" parent="InterestTheme">
+        <item name="colorAccent">@color/colorStartPurple</item>
     </style>
 </resources>

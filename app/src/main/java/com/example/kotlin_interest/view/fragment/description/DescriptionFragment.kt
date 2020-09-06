@@ -16,6 +16,7 @@ import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.view.activity.MainActivity
 import com.example.kotlin_interest.view.fragment.dialogs.DialogsFragment
 import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerFragment
+import com.example.kotlin_interest.view.fragment.interests.InterestsFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
@@ -49,12 +50,25 @@ class DescriptionFragment : DaggerFragment(){
         }
 
         binding.nextButton.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                descriptionViewModel.register(user)
+            if (descriptionViewModel.checkDescription()) {
+                val manager = requireActivity().supportFragmentManager
+                val tag = "interests"
+                if (manager.findFragmentByTag(tag) == null) {
+                    user.description = descriptionViewModel.description.value!!
+                    val interestsFragment = InterestsFragment.newInstance()
+                    val bundle = Bundle()
+                    bundle.putSerializable(
+                        "user",
+                        user
+                    )
+                    interestsFragment.arguments = bundle
+                    manager.beginTransaction()
+                        .addToBackStack(tag)
+                        .replace(R.id.fragmentContent, interestsFragment)
+                        .commit()
+                }
             }
         }
-
-        observe()
 
         return binding.root
     }
@@ -68,25 +82,4 @@ class DescriptionFragment : DaggerFragment(){
         fun newInstance() = DescriptionFragment()
     }
 
-    private fun observe() {
-        descriptionViewModel.getTokenResponse().observe(viewLifecycleOwner, Observer {
-            it?.let {
-                val manager = requireActivity().supportFragmentManager
-                val tag = "desc"
-                if (manager.findFragmentByTag(tag) == null) {
-                    val imagePickerFragment = ImagePickerFragment.newInstance()
-                    manager.beginTransaction()
-                        .addToBackStack(tag)
-                        .replace(R.id.fragmentContent, imagePickerFragment)
-                        .commit()
-                }
-            }
-        })
-
-        descriptionViewModel.getErrorMsg().observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 }

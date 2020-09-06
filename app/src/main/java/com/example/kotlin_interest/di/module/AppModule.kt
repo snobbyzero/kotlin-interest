@@ -3,6 +3,7 @@ package com.example.kotlin_interest.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.kotlin_interest.util.NetworkUtil
 import com.example.kotlin_interest.util.SessionManager
 import com.google.gson.Gson
 import dagger.Module
@@ -16,6 +17,10 @@ class AppModule {
     @Provides
     fun provideManager(sharedPreferences: SharedPreferences, gson: Gson): SessionManager =
         SessionManager(sharedPreferences, gson)
+
+    @Singleton
+    @Provides
+    fun provideNetworkUtil(): NetworkUtil = NetworkUtil()
 
     @Singleton
     @Provides

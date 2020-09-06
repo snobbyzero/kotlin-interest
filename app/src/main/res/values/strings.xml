@@ -26,4 +26,10 @@
     <string name="prompt_description">Tell about yourself</string>
     <string name="next">Next</string>
     <string name="profile">Profile</string>
+    <string name="choose_your_interests">Choose your interests (at least 3)</string>
+    <string name="interests">Interests</string>
+    <string name="about_me">About me</string>
+    <string name="log_out">Log out</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
 </resources>

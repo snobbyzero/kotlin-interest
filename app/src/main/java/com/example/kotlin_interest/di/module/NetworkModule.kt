@@ -36,6 +36,14 @@ class NetworkModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = Gson()
+
+    @Provides
+    @Singleton
+    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
+
     @Singleton
     @Provides
     fun provideLoginRetrofitService(retrofit: Retrofit): LoginRetrofitService =
@@ -51,12 +59,8 @@ class NetworkModule {
     fun provideImageRetrofitService(retrofit: Retrofit): ImageRetrofitService =
         retrofit.create(ImageRetrofitService::class.java)
 
-    @Provides
     @Singleton
-    fun provideGson(): Gson = Gson()
-
     @Provides
-    @Singleton
-    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
-
+    fun provideInterestsRetrofitService(retrofit: Retrofit): InterestsRetrofitService =
+        retrofit.create(InterestsRetrofitService::class.java)
 }

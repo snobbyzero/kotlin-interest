@@ -1,17 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.fragment.profile.ProfileFragment">
+    <data>
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <variable
+            name="profileViewModel"
+            type="com.example.kotlin_interest.view.fragment.profile.ProfileViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:background="@drawable/profile_background"
+            tools:context=".view.fragment.profile.ProfileFragment">
 
-    </FrameLayout>
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="@dimen/photo_width"
+                android:layout_height="@dimen/photo_height"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/photo_round" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/usernameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageButton"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                android:theme="@style/InterestTheme.BoldText"
+                android:maxLines="1"
+                android:text="@{profileViewModel.user.username}"
+                android:textSize="25sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/descriptionDescTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/interestsRecyclerView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/about_me"
+                android:textSize="20sp"
+                android:fontFamily="@font/akzidenzgroteskpro"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/descriptionDescTextView"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:theme="@style/InterestTheme.LightText"
+                android:text="@{profileViewModel.user.description}"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/interestsDescTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/usernameTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/akzidenzgroteskpro"
+                android:gravity="center"
+                android:text="@string/interests"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/interestsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/interestsDescTextView"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logoutButton"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:layout_below="@id/descriptionTextView"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/logout_button"
+                android:text="@string/log_out"
+                android:textColor="@color/colorWhite"
+                app:backgroundTint="@color/colorRed"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
 </layout>

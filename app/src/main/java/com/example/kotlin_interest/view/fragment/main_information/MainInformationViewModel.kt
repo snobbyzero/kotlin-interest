@@ -1,15 +1,13 @@
-package com.example.kotlin_interest.view.fragment.register
+package com.example.kotlin_interest.view.fragment.main_information
 
 import androidx.lifecycle.*
 import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.retrofit.ValidationRetrofitService
-import com.example.kotlin_interest.util.debounce
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RegisterViewModel @Inject constructor(private val validationRetrofitService: ValidationRetrofitService) :
+class MainInformationViewModel @Inject constructor(private val validationRetrofitService: ValidationRetrofitService) :
     ViewModel() {
 
     val usernameError = MutableLiveData<String>()
@@ -20,10 +18,10 @@ class RegisterViewModel @Inject constructor(private val validationRetrofitServic
     private val usernameCheckCompleted = MutableLiveData<Boolean>(true)
     private val emailCheckCompleted = MutableLiveData<Boolean>(true)
 
-    val username = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
-    val email = MutableLiveData<String>()
-    val age = MutableLiveData<String>()
+    val username = MutableLiveData<String>("")
+    val password = MutableLiveData<String>("")
+    val email = MutableLiveData<String>("")
+    val age = MutableLiveData<String>("")
 
     fun getUsernameCheckCompleted(): LiveData<Boolean> = usernameCheckCompleted
     fun getEmailCheckCompleted(): LiveData<Boolean> = emailCheckCompleted
@@ -32,7 +30,7 @@ class RegisterViewModel @Inject constructor(private val validationRetrofitServic
         val str = username.value.toString()
         viewModelScope.launch(Dispatchers.IO) {
             usernameCheckCompleted.postValue(false)
-            if (username.value == null) {
+            if (username.value == "") {
                 usernameError.postValue("Check your input")
             } else if (str.length < 7 || str.length > 20) {
                 usernameError.postValue("Length should be between 7 and 20")
@@ -47,7 +45,7 @@ class RegisterViewModel @Inject constructor(private val validationRetrofitServic
 
     fun checkPassword() {
         val str = password.value.toString()
-        return if (password.value == null || str.length < 7 || str.length > 20) {
+        return if (password.value == "" || str.length < 7 || str.length > 20) {
             passwordError.postValue("Length should be between 7 and 20")
         } else {
             passwordError.postValue("")
@@ -58,7 +56,7 @@ class RegisterViewModel @Inject constructor(private val validationRetrofitServic
         val str = email.value.toString()
         viewModelScope.launch(Dispatchers.IO) {
             emailCheckCompleted.postValue(false)
-            if (email.value == null) {
+            if (email.value == "") {
                 emailError.postValue("Check your input")
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()) {
                 emailError.postValue("Check your input")
@@ -74,7 +72,7 @@ class RegisterViewModel @Inject constructor(private val validationRetrofitServic
     }
 
     fun checkAge() {
-        return if (age.value == null) {
+        return if (age.value == "") {
             ageError.postValue("Input your age")
         } else {
             ageError.postValue("")
@@ -82,10 +80,10 @@ class RegisterViewModel @Inject constructor(private val validationRetrofitServic
     }
 
     fun checkAllFields(): Boolean {
-        // checkUsername()
-        // checkPassword()
-        // checkEmail()
-        // checkAge()
+        if (username.value == "") checkUsername()
+        if (password.value == "") checkPassword()
+        if (email.value == "") checkEmail()
+        if (age.value == "") checkAge()
         return usernameError.value == "" &&
                 passwordError.value == "" &&
                 emailError.value == "" &&
