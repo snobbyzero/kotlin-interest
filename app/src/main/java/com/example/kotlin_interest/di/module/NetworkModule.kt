@@ -63,4 +63,9 @@ class NetworkModule {
     @Provides
     fun provideInterestsRetrofitService(retrofit: Retrofit): InterestsRetrofitService =
         retrofit.create(InterestsRetrofitService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideUsernameRetrofitService(retrofit: Retrofit): UserRetrofitService =
+        retrofit.create(UserRetrofitService::class.java)
 }

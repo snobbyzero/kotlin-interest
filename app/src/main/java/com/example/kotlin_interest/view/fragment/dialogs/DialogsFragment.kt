@@ -11,10 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentDialogsBinding
-import com.example.kotlin_interest.databinding.FragmentLoginBinding
-import com.example.kotlin_interest.databinding.FragmentRegisterBinding
-import com.example.kotlin_interest.view.fragment.home.HomeFragment
-import com.example.kotlin_interest.view.fragment.home.HomeViewModel
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject

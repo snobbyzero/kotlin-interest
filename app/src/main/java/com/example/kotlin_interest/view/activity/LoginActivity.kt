@@ -42,9 +42,6 @@ class LoginActivity () :
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            loginRetrofitService.postCreateAuthToken(LoginInfo("test", "test"), "testfinger")
-        }
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragmentContent, LoginFragment.newInstance())

@@ -45,6 +45,7 @@ dependencies {
     def glide_version = "4.11.0"
     def okhttp_version = "3.8.1"
     def flexbox_version = "2.0.1"
+    def room_version = "2.2.5"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -88,4 +89,5 @@ dependencies {
 
     // Flexbox Layout Manager
     implementation "com.google.android:flexbox:$flexbox_version"
+
 }

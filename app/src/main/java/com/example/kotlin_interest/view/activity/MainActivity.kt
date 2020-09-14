@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             is HomeFragment -> moveTaskToBack(true)
             is ProfileFragment -> moveTaskToBack(true)
             is DialogsFragment -> moveTaskToBack(true)
-            else -> return
+            else -> supportFragmentManager.popBackStack()
         }
     }
 }

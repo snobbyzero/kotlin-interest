@@ -15,6 +15,7 @@ import com.example.kotlin_interest.databinding.FragmentProfileBinding
 import com.example.kotlin_interest.util.NetworkUtil
 import com.example.kotlin_interest.view.activity.LoginActivity
 import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerFragment
+import com.example.kotlin_interest.view.fragment.username.ChangeUsernameFragment
 import com.google.android.flexbox.FlexboxLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
@@ -39,6 +40,14 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
         profileViewModel = ViewModelProvider(this, modelFactory)[ProfileViewModel::class.java]
 
         binding.profileViewModel = profileViewModel
+        setupUI()
+        setProfileImage()
+        setupRecyclerView()
+
+        return binding.root
+    }
+
+    private fun setupUI() {
         with (binding) {
             logoutButton.setOnClickListener { logout() }
             imageButton.setOnClickListener { changeImage() }
@@ -50,10 +59,6 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
         onInterestClickListener = View.OnClickListener {
             changeInterests()
         }
-        setProfileImage()
-        setupRecyclerView()
-
-        return binding.root
     }
 
     private fun changeImage() {
@@ -66,7 +71,11 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
     }
 
     private fun changeUsername() {
-        //profileViewModel.changeUsername()
+        val tag = "username"
+        requireActivity().supportFragmentManager.beginTransaction()
+            .addToBackStack(tag)
+            .replace(R.id.container, ChangeUsernameFragment.newInstance(), ChangeUsernameFragment::class.java.simpleName)
+            .commit()
     }
 
     private fun changeDescription() {

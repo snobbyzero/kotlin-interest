@@ -12,7 +12,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_interest.R
-import com.example.kotlin_interest.databinding.FragmentRegisterBinding
+import com.example.kotlin_interest.databinding.FragmentMainInformationBinding
 import com.example.kotlin_interest.util.getProgressBarDrawable
 import com.example.kotlin_interest.view.fragment.description.DescriptionFragment
 import com.google.android.material.textfield.TextInputLayout
@@ -28,13 +28,13 @@ class MainInformationFragment : DaggerFragment() {
     lateinit var modelFactory: ViewModelProvider.Factory
     private lateinit var mainInformationViewModel: MainInformationViewModel
 
-    private lateinit var binding: FragmentRegisterBinding
+    private lateinit var binding: FragmentMainInformationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        binding = FragmentMainInformationBinding.inflate(inflater, container, false)
 
         mainInformationViewModel = ViewModelProvider(this, modelFactory)[MainInformationViewModel::class.java]
 
@@ -47,6 +47,10 @@ class MainInformationFragment : DaggerFragment() {
 
     private fun setupUI() {
         binding.apply {
+
+            mainInformationViewModel = this@MainInformationFragment.mainInformationViewModel
+            lifecycleOwner = this@MainInformationFragment
+
             setProgressBar(usernameEditText)
             setProgressBar(emailEditText)
 
@@ -57,7 +61,7 @@ class MainInformationFragment : DaggerFragment() {
                     timer.cancel()
                     timer = Timer()
                     timer.schedule(delay) {
-                        registerViewModel!!.checkUsername()
+                        mainInformationViewModel!!.checkUsername()
                     }
                 }
 
@@ -72,7 +76,7 @@ class MainInformationFragment : DaggerFragment() {
                     timer.cancel()
                     timer = Timer()
                     timer.schedule(delay) {
-                        registerViewModel!!.checkPassword()
+                        mainInformationViewModel!!.checkPassword()
                     }
                 }
 
@@ -87,7 +91,7 @@ class MainInformationFragment : DaggerFragment() {
                     timer.cancel()
                     timer = Timer()
                     timer.schedule(delay) {
-                        registerViewModel!!.checkEmail()
+                        mainInformationViewModel!!.checkEmail()
                     }
                 }
 
@@ -102,7 +106,7 @@ class MainInformationFragment : DaggerFragment() {
                     timer.cancel()
                     timer = Timer()
                     timer.schedule(delay) {
-                        registerViewModel!!.checkAge()
+                        mainInformationViewModel!!.checkAge()
                     }
                 }
 
@@ -110,8 +114,6 @@ class MainInformationFragment : DaggerFragment() {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             })
 
-            registerViewModel = this@MainInformationFragment.mainInformationViewModel
-            lifecycleOwner = this@MainInformationFragment
 
             nextButton.setOnClickListener { onNextButtonClicked() }
         }
@@ -145,7 +147,7 @@ class MainInformationFragment : DaggerFragment() {
     private fun setProgressBar(textInputLayout: TextInputLayout) {
         textInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
         textInputLayout.endIconDrawable =
-            this@MainInformationFragment.requireContext().getProgressBarDrawable()
+            requireContext().getProgressBarDrawable()
     }
 
     private fun observe() {
@@ -165,7 +167,7 @@ class MainInformationFragment : DaggerFragment() {
     }
 
     private fun onNextButtonClicked() {
-        if (this@MainInformationFragment.mainInformationViewModel.checkAllFields()) {
+        if (mainInformationViewModel.checkAllFields()) {
             val manager = requireActivity().supportFragmentManager
             val tag = "desc"
             if (manager.findFragmentByTag(tag) == null) {
@@ -173,7 +175,7 @@ class MainInformationFragment : DaggerFragment() {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "user",
-                    this@MainInformationFragment.mainInformationViewModel.getUser()
+                    mainInformationViewModel.getUser()
                 )
                 descriptionFragment.arguments = bundle
                 manager.beginTransaction()

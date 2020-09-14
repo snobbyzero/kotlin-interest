@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="registerViewModel"
+            name="mainInformationViewModel"
             type="com.example.kotlin_interest.view.fragment.main_information.MainInformationViewModel" />
     </data>
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             app:errorEnabled="true"
             app:endIconMode="custom"
-            app:error="@{registerViewModel.usernameError}">
+            app:error="@{mainInformationViewModel.usernameError}">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -32,7 +32,7 @@
                 android:inputType="text"
                 android:theme="@style/InterestTheme.LightText"
                 android:maxLines="1"
-                android:text="@={registerViewModel.username}" />
+                android:text="@={mainInformationViewModel.username}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,14 +46,14 @@
             android:hint="@string/prompt_password"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
-            app:error="@{registerViewModel.passwordError}">
+            app:error="@{mainInformationViewModel.passwordError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textWebPassword"
                 android:theme="@style/InterestTheme.LightText"
-                android:text="@={registerViewModel.password}"/>
+                android:text="@={mainInformationViewModel.password}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -64,14 +64,14 @@
             android:layout_below="@id/passwordEditText"
             android:hint="@string/prompt_email"
             app:errorEnabled="true"
-            app:error="@{registerViewModel.emailError}">
+            app:error="@{mainInformationViewModel.emailError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textWebEmailAddress"
                 android:theme="@style/InterestTheme.LightText"
-                android:text="@={registerViewModel.email}"/>
+                android:text="@={mainInformationViewModel.email}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -82,14 +82,14 @@
             android:layout_below="@id/emailEditText"
             android:hint="@string/prompt_age"
             app:errorEnabled="true"
-            app:error="@{registerViewModel.ageError}">
+            app:error="@{mainInformationViewModel.ageError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:theme="@style/InterestTheme.LightText"
-                android:text="@={registerViewModel.age}"/>
+                android:text="@={mainInformationViewModel.age}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup

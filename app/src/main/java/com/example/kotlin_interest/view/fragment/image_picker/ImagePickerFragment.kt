@@ -20,6 +20,7 @@ import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.view.activity.LoginActivity
 import com.example.kotlin_interest.view.activity.MainActivity
 import com.example.kotlin_interest.view.fragment.description.DescriptionFragment
+import com.example.kotlin_interest.view.fragment.profile.ProfileFragment
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_image_picker.*
@@ -66,12 +67,18 @@ class ImagePickerFragment : DaggerFragment() {
                 when (activity) {
                     is LoginActivity -> startActivity(Intent(activity, MainActivity::class.java))
                     is MainActivity -> {
-
+                        goToProfileFragment()
                     }
                 }
             }
             imageButton.setOnClickListener { setImage() }
         }
+    }
+
+    private fun goToProfileFragment() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.container, ProfileFragment.newInstance(), ProfileFragment::class.java.simpleName)
+            .commit()
     }
 
     private fun setImage() {
