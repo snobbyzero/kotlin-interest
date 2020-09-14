@@ -1,27 +1,16 @@
 package com.example.kotlin_interest.view.activity
 
-import android.content.Intent
+//import dagger.android.support.HasSupportFragmentInjector
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.ActivityLoginBinding
-import com.example.kotlin_interest.databinding.ActivityMainBinding
 import com.example.kotlin_interest.retrofit.LoginRetrofitService
 import com.example.kotlin_interest.util.SessionManager
 import com.example.kotlin_interest.view.fragment.login.LoginFragment
-import com.example.kotlin_interest.view.fragment.login.LoginInfo
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-//import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 class LoginActivity () :
