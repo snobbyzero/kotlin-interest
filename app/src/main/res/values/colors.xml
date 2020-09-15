@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#6313A6</color>
     <color name="colorPrimaryDark">#6313A6</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#6313A6</color>
     <color name="colorStartOrange">#ff875c</color>
     <color name="colorEndOrange">#ea3434</color>
     <color name="colorStartPurple">#6313a6</color>

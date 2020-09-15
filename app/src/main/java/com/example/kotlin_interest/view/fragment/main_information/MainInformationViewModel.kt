@@ -5,6 +5,7 @@ import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.retrofit.ValidationRetrofitService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 class MainInformationViewModel @Inject constructor(private val validationRetrofitService: ValidationRetrofitService) :

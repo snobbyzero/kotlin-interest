@@ -20,7 +20,8 @@ import javax.inject.Singleton
     FragmentModule::class,
     LoginInfoModule::class,
     AppModule::class,
-    GlideBuilderModule::class
+    GlideBuilderModule::class,
+    DatabaseModule::class
 ])
 interface ApplicationComponent : AndroidInjector<MyApplication> {
 

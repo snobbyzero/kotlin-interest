@@ -75,11 +75,41 @@ class InterestsFragment : DaggerFragment() {
             }
         }
 
+        binding.updateButton.setOnClickListener {  updateCategories() }
+
         with (binding.categoriesRecyclerView) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = categoriesAdapter
         }
+    }
 
+    private fun updateCategories() {
+        interestsViewModel.getCategoriesFromServer().observe(viewLifecycleOwner, Observer {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        binding.apply {
+                            categoriesRecyclerView.visibility = View.VISIBLE
+                            progressBar.visibility = View.GONE
+                        }
+                        resource.data?.let { categories -> retrieveCategoriesList(categories) }
+                    }
+                    Status.ERROR -> {
+                        binding.apply {
+                            categoriesRecyclerView.visibility = View.VISIBLE
+                            progressBar.visibility = View.GONE
+                            Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_SHORT).show()
+                        }
+                    }
+                    Status.LOADING -> {
+                        binding.apply {
+                            categoriesRecyclerView.visibility = View.GONE
+                            progressBar.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun observe() {

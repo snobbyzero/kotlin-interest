@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:theme="@style/ProgressBar"/>
+            android:theme="@style/ProgressBar"
+            android:visibility="gone"/>
 
         <SearchView
             android:id="@+id/searchView"
@@ -37,9 +38,21 @@
             android:textSize="20sp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:layout_toStartOf="@+id/updateButton"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"/>
-        
+
+        <ImageButton
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_refresh_28"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"/>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoriesRecyclerView"
             android:layout_width="match_parent"

@@ -41,6 +41,14 @@ class InterestsViewModel @Inject constructor(
         }
     }
 
+    fun getCategoriesFromServer() = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+        try {
+            emit(Resource.success(data = interestsRepository.getCategoriesFromServer()))
+        } catch (ex: Exception) {
+            emit(Resource.error(data = null, message = ex.message ?: "Error occurred!"))
+        }
+    }
 
     fun getErrorMsg(): LiveData<String> = errorMsg
     fun getTokenResponse(): LiveData<JwtTokens> = responseJwt

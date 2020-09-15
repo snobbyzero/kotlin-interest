@@ -24,10 +24,10 @@ class CategoriesAdapter(
     RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
 
     private var selectedItem: View? = null
-        get() = field
-        set(value) {
-            field = value
-        }
+
+    init {
+        dataset.add(InterestCategory(-1, "Selected", checkedInterests))
+    }
 
     inner class CategoriesViewHolder(
         inflater: LayoutInflater,
@@ -45,7 +45,13 @@ class CategoriesAdapter(
             interestsRecyclerView =
                 inflater.inflate(R.layout.interests_list, null, false) as RecyclerView
             interestsAdapter =
-                InterestsAdapter(arrayListOf(), checkedInterests, this, this@CategoriesAdapter, checkBoxesMap)
+                InterestsAdapter(
+                    arrayListOf(),
+                    checkedInterests,
+                    this,
+                    this@CategoriesAdapter,
+                    checkBoxesMap
+                )
         }
 
         fun bind(interestCategory: InterestCategory, container: FrameLayout) {
@@ -106,10 +112,20 @@ class CategoriesAdapter(
 
     fun addCategories(categories: List<InterestCategory>) {
         dataset.apply {
-            clear()
-            add(InterestCategory(-1, "Selected", checkedInterests))
-            addAll(categories)
-            notifyDataSetChanged()
+            for (category: InterestCategory in categories) {
+                if (category.id !in dataset.map { it.id }) {
+                    dataset.add(category)
+                    notifyDataSetChanged()
+                } else {
+                    for (interest: Interest in category.interestList) {
+                        val categoryInDataset = dataset.first { it.id == category.id }
+                        if (interest.id !in categoryInDataset.interestList.map { it.id }) {
+                            val list: ArrayList<Interest> = categoryInDataset.interestList as ArrayList<Interest>
+                            list.add(interest)
+                        }
+                    }
+                }
+            }
         }
     }
 
