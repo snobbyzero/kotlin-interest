@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.kotlin_interest.model.JwtTokens
 import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.retrofit.LoginRetrofitService
+import com.example.kotlin_interest.retrofit.UserRetrofitService
 import com.example.kotlin_interest.util.SessionManager
 import com.example.kotlin_interest.view.fragment.login.LoginInfo
 import kotlinx.coroutines.CoroutineScope
@@ -13,10 +14,14 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class DescriptionViewModel @Inject constructor() : ViewModel() {
-    val description = MutableLiveData<String>("")
+class DescriptionViewModel @Inject constructor(
+    private val sessionManager: SessionManager,
+    private val userRetrofitService: UserRetrofitService
+) : ViewModel() {
+    val user = sessionManager.getUser()
+    val description = MutableLiveData<String>(user?.description ?: "")
     val error = MutableLiveData<String>("")
-    fun checkDescription() : Boolean {
+    fun checkDescription(): Boolean {
         if (description.value!!.length < MIN_LENGTH) {
             error.postValue("Description must have at least 20 characters")
             return false
@@ -26,6 +31,17 @@ class DescriptionViewModel @Inject constructor() : ViewModel() {
         } else {
             error.postValue("")
             return true
+        }
+    }
+
+    // Method for changing description in profile
+    fun changeDescription() {
+        if (user != null && description.value != user.description && error.value == "") {
+            CoroutineScope(Dispatchers.IO).launch {
+                user.description = description.value!!
+                userRetrofitService.postDescription(user.id, description.value!!)
+                sessionManager.saveUser(user)
+            }
         }
     }
 

@@ -8,6 +8,7 @@
         <variable
             name="profileViewModel"
             type="com.example.kotlin_interest.view.fragment.profile.ProfileViewModel" />
+
     </data>
 
     <ScrollView

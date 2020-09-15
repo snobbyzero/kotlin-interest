@@ -2,26 +2,28 @@ package com.example.kotlin_interest.view.fragment.profile
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.signature.ObjectKey
 import com.example.kotlin_interest.GlideApp
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentProfileBinding
-import com.example.kotlin_interest.util.NetworkUtil
 import com.example.kotlin_interest.view.activity.LoginActivity
 import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerFragment
-import com.example.kotlin_interest.view.fragment.username.ChangeUsernameFragment
+import com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameFragment
+import com.example.kotlin_interest.view.fragment.description.DescriptionFragment
+import com.example.kotlin_interest.view.fragment.interests.InterestsAdapter
 import com.google.android.flexbox.FlexboxLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class ProfileFragment @Inject constructor(): DaggerFragment() {
+class ProfileFragment @Inject constructor() : DaggerFragment() {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
@@ -30,6 +32,11 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
     private lateinit var binding: FragmentProfileBinding
 
     private lateinit var onInterestClickListener: View.OnClickListener
+
+    private lateinit var interestsAdapter: UserInterestsAdapter
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,15 +47,20 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
         profileViewModel = ViewModelProvider(this, modelFactory)[ProfileViewModel::class.java]
 
         binding.profileViewModel = profileViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         setupUI()
         setProfileImage()
         setupRecyclerView()
 
+        observe()
+        setSharedPreferencesListener()
+
         return binding.root
     }
 
+
     private fun setupUI() {
-        with (binding) {
+        with(binding) {
             logoutButton.setOnClickListener { logout() }
             imageButton.setOnClickListener { changeImage() }
             usernameTextView.setOnClickListener { changeUsername() }
@@ -61,12 +73,32 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
         }
     }
 
+    private fun observe() {
+        profileViewModel.user.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                interestsAdapter.addInterests(profileViewModel.user.value!!.interests)
+                interestsAdapter.notifyDataSetChanged()
+            }
+        })
+    }
+
+    private fun setSharedPreferencesListener() {
+        sharedPreferences.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
+            run {
+                profileViewModel.updateUser()
+            }
+        }
+    }
+
     private fun changeImage() {
-        //profileViewModel.changeImage()
         val tag = "photo"
         requireActivity().supportFragmentManager.beginTransaction()
             .addToBackStack(tag)
-            .replace(R.id.container, ImagePickerFragment.newInstance(), ImagePickerFragment::class.java.simpleName)
+            .replace(
+                R.id.container,
+                ImagePickerFragment.newInstance(),
+                ImagePickerFragment::class.java.simpleName
+            )
             .commit()
     }
 
@@ -74,12 +106,24 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
         val tag = "username"
         requireActivity().supportFragmentManager.beginTransaction()
             .addToBackStack(tag)
-            .replace(R.id.container, ChangeUsernameFragment.newInstance(), ChangeUsernameFragment::class.java.simpleName)
+            .replace(
+                R.id.container,
+                ChangeUsernameFragment.newInstance(),
+                ChangeUsernameFragment::class.java.simpleName
+            )
             .commit()
     }
 
     private fun changeDescription() {
-        //profileViewModel.changeDescription()
+        val tag = "description"
+        requireActivity().supportFragmentManager.beginTransaction()
+            .addToBackStack(tag)
+            .replace(
+                R.id.container,
+                DescriptionFragment.newInstance(),
+                DescriptionFragment::class.java.simpleName
+            )
+            .commit()
     }
 
     private fun changeInterests() {
@@ -100,12 +144,12 @@ class ProfileFragment @Inject constructor(): DaggerFragment() {
             justifyContent = com.google.android.flexbox.JustifyContent.FLEX_START
             alignItems = com.google.android.flexbox.AlignItems.FLEX_START
         }
-        val interestsAdapter = UserInterestsAdapter(arrayListOf(), onInterestClickListener)
-        with (binding.interestsRecyclerView) {
+        interestsAdapter = UserInterestsAdapter(arrayListOf(), onInterestClickListener)
+        with(binding.interestsRecyclerView) {
             layoutManager = flexboxLayoutManager
             adapter = interestsAdapter
         }
-        interestsAdapter.addInterests(profileViewModel.user!!.interests)
+        interestsAdapter.addInterests(profileViewModel.user.value!!.interests)
     }
 
     private fun setProfileImage() {

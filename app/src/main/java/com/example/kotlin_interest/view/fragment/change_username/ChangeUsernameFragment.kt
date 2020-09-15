@@ -1,4 +1,4 @@
-package com.example.kotlin_interest.view.fragment.username
+package com.example.kotlin_interest.view.fragment.change_username
 
 import android.content.Context
 import android.graphics.drawable.Animatable
@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_interest.databinding.FragmentChangeUsernameBinding
 import com.example.kotlin_interest.util.getProgressBarDrawable
@@ -67,7 +66,7 @@ class ChangeUsernameFragment : DaggerFragment() {
             })
 
             nextButton.setOnClickListener {
-                changeUsernameViewModel!!.saveUsername()
+                changeUsernameViewModel!!.changeUsername()
                 goToProfileFragment()
             }
         }

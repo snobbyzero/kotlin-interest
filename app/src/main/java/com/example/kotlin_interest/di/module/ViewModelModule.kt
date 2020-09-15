@@ -12,7 +12,7 @@ import com.example.kotlin_interest.view.fragment.interests.InterestsViewModel
 import com.example.kotlin_interest.view.fragment.login.LoginViewModel
 import com.example.kotlin_interest.view.fragment.profile.ProfileViewModel
 import com.example.kotlin_interest.view.fragment.main_information.MainInformationViewModel
-import com.example.kotlin_interest.view.fragment.username.ChangeUsernameViewModel
+import com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

@@ -20,6 +20,7 @@
 
     <style name="InterestTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="fontFamily">@font/akzidenzgroteskpro</item>
     </style>
 

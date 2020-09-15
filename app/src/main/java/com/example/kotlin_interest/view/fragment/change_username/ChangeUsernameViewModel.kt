@@ -1,4 +1,4 @@
-package com.example.kotlin_interest.view.fragment.username
+package com.example.kotlin_interest.view.fragment.change_username
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -52,7 +52,7 @@ class ChangeUsernameViewModel @Inject constructor(
         }
     }
 
-    fun saveUsername() {
+    fun changeUsername() {
         if (username.value != user!!.username && usernameError.value == "" && usernameCheckCompleted.value!!) {
             CoroutineScope(Dispatchers.IO).launch {
                 user!!.username = username.value!!

@@ -6,13 +6,13 @@
     <data>
         <variable
             name="changeUsernameViewModel"
-            type="com.example.kotlin_interest.view.fragment.username.ChangeUsernameViewModel" />
+            type="com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.username.ChangeUsernameFragment">
+        tools:context=".view.fragment.change_username.ChangeUsernameFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameEditText"

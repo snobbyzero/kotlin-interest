@@ -13,10 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentDescriptionBinding
 import com.example.kotlin_interest.model.User
+import com.example.kotlin_interest.view.activity.LoginActivity
 import com.example.kotlin_interest.view.activity.MainActivity
 import com.example.kotlin_interest.view.fragment.dialogs.DialogsFragment
 import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerFragment
 import com.example.kotlin_interest.view.fragment.interests.InterestsFragment
+import com.example.kotlin_interest.view.fragment.profile.ProfileFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
@@ -49,28 +51,49 @@ class DescriptionFragment : DaggerFragment(){
             user = bundle.getSerializable("user") as User
         }
 
+        setupUI()
+
+        return binding.root
+    }
+
+    private fun setupUI() {
         binding.nextButton.setOnClickListener {
-            if (descriptionViewModel.checkDescription()) {
-                val manager = requireActivity().supportFragmentManager
-                val tag = "interests"
-                if (manager.findFragmentByTag(tag) == null) {
-                    user.description = descriptionViewModel.description.value!!
-                    val interestsFragment = InterestsFragment.newInstance()
-                    val bundle = Bundle()
-                    bundle.putSerializable(
-                        "user",
-                        user
-                    )
-                    interestsFragment.arguments = bundle
-                    manager.beginTransaction()
-                        .addToBackStack(tag)
-                        .replace(R.id.fragmentContent, interestsFragment)
-                        .commit()
+            when (activity) {
+                is LoginActivity -> goToImagePicker()
+                is MainActivity -> {
+                    binding.nextButton.text = resources.getText(R.string.save)
+                    descriptionViewModel.changeDescription()
+                    goToProfileFragment()
                 }
             }
         }
+    }
 
-        return binding.root
+    private fun goToImagePicker() {
+        if (descriptionViewModel.checkDescription()) {
+            val manager = requireActivity().supportFragmentManager
+            val tag = "interests"
+            if (manager.findFragmentByTag(tag) == null) {
+                user.description = descriptionViewModel.description.value!!
+                val interestsFragment = InterestsFragment.newInstance()
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "user",
+                    user
+                )
+                interestsFragment.arguments = bundle
+                manager.beginTransaction()
+                    .addToBackStack(tag)
+                    .replace(R.id.fragmentContent, interestsFragment)
+                    .commit()
+            }
+        }
+    }
+
+    private fun goToProfileFragment() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.container, ProfileFragment.newInstance(), ProfileFragment::class.java.simpleName)
+            .commit()
     }
 
     override fun onAttach(context: Context) {

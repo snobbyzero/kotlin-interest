@@ -9,7 +9,7 @@ import com.example.kotlin_interest.view.fragment.interests.InterestsFragment
 import com.example.kotlin_interest.view.fragment.login.LoginFragment
 import com.example.kotlin_interest.view.fragment.main_information.MainInformationFragment
 import com.example.kotlin_interest.view.fragment.profile.ProfileFragment
-import com.example.kotlin_interest.view.fragment.username.ChangeUsernameFragment
+import com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

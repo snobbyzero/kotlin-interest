@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import java.util.*
 import javax.inject.Inject
 
-class SessionManager @Inject constructor(private val sharedPreferences: SharedPreferences, private val gson: Gson) {
+class SessionManager @Inject constructor(val sharedPreferences: SharedPreferences, private val gson: Gson) {
 
     fun getAccessToken() : String = sharedPreferences.getString(ACCESS_TOKEN, "-")!!
 

@@ -34,4 +34,8 @@ class User() : Serializable {
         this.age = age
         this.email = email
     }
+
+    constructor(username: String, password: String, age: Int, email: String, description: String) : this(username, password, age, email) {
+        this.description = description
+    }
 }
