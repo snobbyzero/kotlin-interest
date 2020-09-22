@@ -1,18 +1,15 @@
-package com.example.kotlin_interest.view.fragment.profile
+package com.example.kotlin_interest.interests_adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.UserInterestItemBinding
 import com.example.kotlin_interest.model.Interest
-import com.example.kotlin_interest.model.User
 
 class UserInterestsAdapter(
     private val dataset: ArrayList<Interest>,
-    val onInterestClickListener: View.OnClickListener
+    val onInterestClickListener: View.OnClickListener? = null
 ) :
     RecyclerView.Adapter<UserInterestsAdapter.UserInterestsViewHolder>() {
 
@@ -46,5 +43,10 @@ class UserInterestsAdapter(
             addAll(interests)
             notifyDataSetChanged()
         }
+    }
+
+    fun clearData() {
+        dataset.clear()
+        notifyDataSetChanged()
     }
 }

@@ -22,4 +22,8 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideInterestCategoryDao(database: AppDatabase) = database.interestCategoryDao()
+
+    @Singleton
+    @Provides
+    fun provideUserDao(database: AppDatabase) = database.userDao()
 }

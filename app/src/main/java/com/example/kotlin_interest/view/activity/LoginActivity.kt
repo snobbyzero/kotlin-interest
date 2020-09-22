@@ -2,13 +2,12 @@ package com.example.kotlin_interest.view.activity
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.room.Room
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.database.AppDatabase
 import com.example.kotlin_interest.databinding.ActivityLoginBinding
-import com.example.kotlin_interest.entity.CategoryWithInterests
-import com.example.kotlin_interest.entity.InterestCategoryEntity
-import com.example.kotlin_interest.entity.InterestEntity
+import com.example.kotlin_interest.entity.*
 import com.example.kotlin_interest.model.InterestCategory
 import com.example.kotlin_interest.retrofit.LoginRetrofitService
 import com.example.kotlin_interest.util.SessionManager
@@ -17,11 +16,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 class LoginActivity () :
     DaggerAppCompatActivity() {

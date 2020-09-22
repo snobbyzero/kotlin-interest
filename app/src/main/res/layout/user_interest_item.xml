@@ -7,7 +7,7 @@
             type="com.example.kotlin_interest.model.Interest" />
         <variable
             name="adapter"
-            type="com.example.kotlin_interest.view.fragment.profile.UserInterestsAdapter" />
+            type="com.example.kotlin_interest.interests_adapter.UserInterestsAdapter" />
     </data>
 
     <RelativeLayout

@@ -78,6 +78,7 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit2_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -94,4 +95,6 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

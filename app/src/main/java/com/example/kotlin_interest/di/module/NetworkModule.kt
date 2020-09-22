@@ -8,6 +8,7 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -17,10 +18,12 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
+        scalarsConverterFactory: ScalarsConverterFactory,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit = Retrofit.Builder()
         .baseUrl("https://interest-project.herokuapp.com")
         .client(okHttpClient)
+        .addConverterFactory(scalarsConverterFactory)
         .addConverterFactory(gsonConverterFactory)
         .build()
 
@@ -43,6 +46,10 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
+
+    @Provides
+    @Singleton
+    fun provideScalarsConverterFactory() = ScalarsConverterFactory.create()
 
     @Singleton
     @Provides
@@ -68,4 +75,9 @@ class NetworkModule {
     @Provides
     fun provideUsernameRetrofitService(retrofit: Retrofit): UserRetrofitService =
         retrofit.create(UserRetrofitService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideMatchRetrofitService(retrofit: Retrofit): MatchRetrofitService =
+        retrofit.create(MatchRetrofitService::class.java)
 }

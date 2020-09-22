@@ -13,11 +13,11 @@ import com.bumptech.glide.signature.ObjectKey
 import com.example.kotlin_interest.GlideApp
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentProfileBinding
+import com.example.kotlin_interest.interests_adapter.UserInterestsAdapter
 import com.example.kotlin_interest.view.activity.LoginActivity
 import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerFragment
 import com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameFragment
 import com.example.kotlin_interest.view.fragment.description.DescriptionFragment
-import com.example.kotlin_interest.view.fragment.interests.InterestsAdapter
 import com.google.android.flexbox.FlexboxLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment

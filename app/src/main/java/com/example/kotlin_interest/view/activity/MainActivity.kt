@@ -9,6 +9,7 @@ import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.util.NetworkUtil
 import com.example.kotlin_interest.util.SessionManager
 import com.example.kotlin_interest.view.fragment.dialogs.DialogsFragment
+import com.example.kotlin_interest.view.fragment.history.HistoryFragment
 import com.example.kotlin_interest.view.fragment.home.HomeFragment
 import com.example.kotlin_interest.view.fragment.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.container, HomeFragment.newInstance(), HomeFragment::class.java.simpleName)
+            supportFragmentManager.beginTransaction().replace(R.id.container, HomeFragment.newInstance(), HomeFragment::class.java.simpleName).commit()
         }
 
         // Navigation
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_dialogs -> {
                     DialogsFragment.newInstance()
+                }
+                R.id.nav_history -> {
+                    HistoryFragment.newInstance()
                 }
                 else -> null
             }

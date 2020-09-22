@@ -13,6 +13,8 @@ import com.example.kotlin_interest.view.fragment.login.LoginViewModel
 import com.example.kotlin_interest.view.fragment.profile.ProfileViewModel
 import com.example.kotlin_interest.view.fragment.main_information.MainInformationViewModel
 import com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameViewModel
+import com.example.kotlin_interest.view.fragment.filters.FiltersViewModel
+import com.example.kotlin_interest.view.fragment.history.HistoryViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -67,5 +69,15 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChangeUsernameViewModel::class)
     abstract fun bindChangeUsernameViewModel(viewModel: ChangeUsernameViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HistoryViewModel::class)
+    abstract fun bindHistoryViewModel(viewModel: HistoryViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FiltersViewModel::class)
+    abstract fun bindFiltersViewModel(viewModel: FiltersViewModel) : ViewModel
 
 }

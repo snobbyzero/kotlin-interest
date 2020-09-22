@@ -10,6 +10,8 @@ import com.example.kotlin_interest.view.fragment.login.LoginFragment
 import com.example.kotlin_interest.view.fragment.main_information.MainInformationFragment
 import com.example.kotlin_interest.view.fragment.profile.ProfileFragment
 import com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameFragment
+import com.example.kotlin_interest.view.fragment.dialogs.FiltersFragment
+import com.example.kotlin_interest.view.fragment.history.HistoryFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -51,4 +53,12 @@ abstract class FragmentModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeChangeUsernameFragment() : ChangeUsernameFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun contributeHistoryFragment() : HistoryFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun contributeFiltersFragment() : FiltersFragment
 }

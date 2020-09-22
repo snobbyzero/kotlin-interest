@@ -6,27 +6,31 @@ import javax.inject.Inject
 
 class User() : Serializable {
     @SerializedName("id")
-    val id: Long = -1
+    var id: Long = -1
+
     @SerializedName("username")
     var username: String = ""
+
     @SerializedName("password")
     var password: String = ""
+
     @SerializedName("email")
-    var email: String = ""
+    var email: String? = ""
+
     @SerializedName("sex")
     var sex: String = ""
+
     @SerializedName("description")
     var description: String = ""
+
     @SerializedName("age")
     var age: Int = -1
+
     @SerializedName("imageToken")
     var imageToken: String = ""
-    @SerializedName("phoneTokens")
-    var phoneTokens: List<PhoneToken> = ArrayList()
+
     @SerializedName("interests")
     var interests: List<Interest> = ArrayList()
-    @SerializedName("chatId")
-    var chatId: Long = -1L
 
     constructor(username: String, password: String, age: Int, email: String) : this() {
         this.username = username
@@ -35,7 +39,33 @@ class User() : Serializable {
         this.email = email
     }
 
-    constructor(username: String, password: String, age: Int, email: String, description: String) : this(username, password, age, email) {
+    constructor(
+        username: String,
+        password: String,
+        age: Int,
+        email: String,
+        description: String
+    ) : this(username, password, age, email) {
         this.description = description
+    }
+
+    constructor(
+        id: Long,
+        username: String,
+        email: String?,
+        sex: String,
+        description: String,
+        age: Int,
+        imageToken: String,
+        interests: List<Interest>
+    ) : this() {
+        this.id = id
+        this.username = username
+        this.email = email
+        this.sex = sex
+        this.description = description
+        this.age = age
+        this.imageToken = imageToken
+        this.interests = interests
     }
 }
