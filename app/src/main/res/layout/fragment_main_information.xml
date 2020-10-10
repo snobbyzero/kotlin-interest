@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mainInformationViewModel"
+            type="com.example.kotlin_interest.view.fragment.main_information.MainInformationViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.main_information.MainInformationFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="@string/prompt_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:endIconMode="custom"
+            app:error="@{mainInformationViewModel.usernameError}">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:theme="@style/InterestTheme.LightText"
+                android:maxLines="1"
+                android:text="@={mainInformationViewModel.username}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/usernameEditText"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_password"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:error="@{mainInformationViewModel.passwordError}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebPassword"
+                android:theme="@style/InterestTheme.LightText"
+                android:text="@={mainInformationViewModel.password}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/passwordEditText"
+            android:hint="@string/prompt_email"
+            app:errorEnabled="true"
+            app:error="@{mainInformationViewModel.emailError}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebEmailAddress"
+                android:theme="@style/InterestTheme.LightText"
+                android:text="@={mainInformationViewModel.email}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ageEditText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailEditText"
+            android:hint="@string/prompt_age"
+            app:errorEnabled="true"
+            app:error="@{mainInformationViewModel.ageError}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:theme="@style/InterestTheme.LightText"
+                android:text="@={mainInformationViewModel.age}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/sexRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ageEditText"
+            android:theme="@style/InterestTheme.LightText"
+            android:checkedButton="@id/maleRadioButton"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/maleRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/male_rb"
+                android:buttonTint="@color/colorPrimary"
+                android:textSize="18sp"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/femaleRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/female_rb"
+                android:buttonTint="@color/colorPrimary"
+                android:textSize="18sp"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/roundcorner"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/next"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</layout>
