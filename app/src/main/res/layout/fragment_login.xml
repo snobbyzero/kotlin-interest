@@ -79,8 +79,7 @@
 
         <Button
             android:id="@+id/signinButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            style="@style/InterestTheme.Button"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/errorTextView"
             android:text="@string/title_activity_login" />

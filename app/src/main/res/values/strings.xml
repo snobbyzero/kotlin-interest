@@ -33,4 +33,7 @@
     <string name="back">Back</string>
     <string name="save">Save</string>
     <string name="history">History</string>
+    <string name="no_users_left">No users left :(</string>
+    <string name="filters">Filters</string>
+    <string name="apply">Apply</string>
 </resources>

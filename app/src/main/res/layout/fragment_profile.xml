@@ -42,7 +42,6 @@
                 android:gravity="center"
                 android:theme="@style/InterestTheme.BoldText"
                 android:maxLines="1"
-                android:text="@{profileViewModel.user.username}"
                 android:textSize="25sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -65,7 +64,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="40dp"
                 android:theme="@style/InterestTheme.LightText"
-                android:text="@{profileViewModel.user.description}"
                 android:textSize="20sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -90,11 +88,9 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/logoutButton"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
+                style="@style/InterestTheme.Button"
                 android:layout_below="@id/descriptionTextView"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/logout_button"
                 android:text="@string/log_out"
                 android:textColor="@color/colorWhite"
                 app:backgroundTint="@color/colorRed"

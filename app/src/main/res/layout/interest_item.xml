@@ -15,7 +15,6 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:text="text text text"
-        android:theme="@style/InterestTheme.LightText"
         android:textSize="20sp" />
 
     <CheckBox

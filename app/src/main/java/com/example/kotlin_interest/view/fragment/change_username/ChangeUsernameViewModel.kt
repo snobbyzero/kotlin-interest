@@ -27,9 +27,9 @@ class ChangeUsernameViewModel @Inject constructor(
 
     val usernameError = MutableLiveData<String>()
 
-    private val usernameCheckCompleted = MutableLiveData<Boolean>(true)
+    private val usernameCheckCompleted = MutableLiveData(true)
 
-    val username = MutableLiveData<String>(user!!.username)
+    val username = MutableLiveData(user!!.username)
 
     fun getUsernameCheckCompleted(): LiveData<Boolean> = usernameCheckCompleted
 

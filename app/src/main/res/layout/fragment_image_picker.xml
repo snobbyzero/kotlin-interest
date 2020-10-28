@@ -17,15 +17,12 @@
 
         <Button
             android:id="@+id/nextButton"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
+            style="@style/InterestTheme.Button"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/roundcorner"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:text="@string/save"
-            android:gravity="center"
-            android:textSize="18sp" />
+            android:gravity="center"/>
 
     </RelativeLayout>
 </layout>
