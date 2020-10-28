@@ -22,10 +22,11 @@ class DescriptionViewModel @Inject constructor(
     val description = MutableLiveData<String>(user?.description ?: "")
     val error = MutableLiveData<String>("")
     fun checkDescription(): Boolean {
-        if (description.value!!.length < MIN_LENGTH) {
+        description.postValue(description.value!!.trim())
+        if (description.value!!.trim().length < MIN_LENGTH) {
             error.postValue("Description must have at least 20 characters")
             return false
-        } else if (description.value!!.length > MAX_LENGTH) {
+        } else if (description.value!!.trim().length > MAX_LENGTH) {
             error.postValue("Description's length can't be more than 100 characters")
             return false
         } else {
