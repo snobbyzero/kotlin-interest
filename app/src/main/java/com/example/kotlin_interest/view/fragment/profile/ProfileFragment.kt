@@ -13,7 +13,7 @@ import com.bumptech.glide.signature.ObjectKey
 import com.example.kotlin_interest.GlideApp
 import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentProfileBinding
-import com.example.kotlin_interest.interests_adapter.UserInterestsAdapter
+import com.example.kotlin_interest.view.interests_adapter.UserInterestsAdapter
 import com.example.kotlin_interest.view.activity.LoginActivity
 import com.example.kotlin_interest.view.fragment.image_picker.ImagePickerFragment
 import com.example.kotlin_interest.view.fragment.change_username.ChangeUsernameFragment
@@ -49,8 +49,6 @@ class ProfileFragment @Inject constructor() : DaggerFragment() {
         binding.profileViewModel = profileViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setupUI()
-        setProfileImage()
-        setupRecyclerView()
 
         observe()
         setSharedPreferencesListener()
@@ -76,6 +74,10 @@ class ProfileFragment @Inject constructor() : DaggerFragment() {
     private fun observe() {
         profileViewModel.user.observe(viewLifecycleOwner, Observer {
             it?.let {
+                setupRecyclerView()
+                setProfileImage()
+                binding.usernameTextView.text = it.username
+                binding.descriptionTextView.text = it.description
                 interestsAdapter.addInterests(profileViewModel.user.value!!.interests)
                 interestsAdapter.notifyDataSetChanged()
             }
@@ -83,7 +85,7 @@ class ProfileFragment @Inject constructor() : DaggerFragment() {
     }
 
     private fun setSharedPreferencesListener() {
-        sharedPreferences.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, _ ->
             run {
                 profileViewModel.updateUser()
             }
@@ -154,7 +156,7 @@ class ProfileFragment @Inject constructor() : DaggerFragment() {
 
     private fun setProfileImage() {
         GlideApp.with(binding.root)
-            .load(profileViewModel.imagePath)
+            .load(profileViewModel.getImageUrl())
             .circleCrop()
             .signature(ObjectKey(profileViewModel.imageToken!!))
             .into(binding.imageButton)

@@ -11,20 +11,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.signature.ObjectKey
 import com.example.kotlin_interest.GlideApp
-
+import com.example.kotlin_interest.R
 import com.example.kotlin_interest.databinding.FragmentHomeBinding
-import com.example.kotlin_interest.databinding.FragmentLoginBinding
 import com.example.kotlin_interest.entity.UserEntity
 import com.example.kotlin_interest.entity.UserWithInterests
-import com.example.kotlin_interest.interests_adapter.UserInterestsAdapter
+import com.example.kotlin_interest.view.interests_adapter.UserInterestsAdapter
 import com.example.kotlin_interest.model.Interest
-import com.example.kotlin_interest.model.User
 import com.example.kotlin_interest.util.Status
+import com.example.kotlin_interest.view.fragment.description.DescriptionFragment
+import com.example.kotlin_interest.view.fragment.dialogs.FiltersFragment
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeFragment : DaggerFragment() {
@@ -49,14 +49,15 @@ class HomeFragment : DaggerFragment() {
         binding.homeViewModel = homeViewModel
 
         setupUI()
+        observe()
 
-        getUsers(171)
+        getUsers(arrayListOf(171, 169))
 
         return binding.root
     }
 
     private fun setupUI() {
-        with (binding) {
+        with(binding) {
             likeButton.setOnClickListener {
                 this@HomeFragment.homeViewModel.addMatch()
                 loadUser()
@@ -64,42 +65,68 @@ class HomeFragment : DaggerFragment() {
 
             dislikeButton.setOnClickListener {
                 loadUser()
+                // delete from local db
+                //this@HomeFragment.homeViewModel.dislike();
+            }
+
+            filtersButton.setOnClickListener {
+                val tag = "filters"
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .addToBackStack(tag)
+                    .replace(
+                        R.id.container,
+                        FiltersFragment.newInstance(),
+                        FiltersFragment::class.java.simpleName
+                    )
+                    .commit()
             }
         }
     }
 
-
-    private fun getUsers(interestId: Long) {
-        homeViewModel.getUsersFromDb(interestId).observe(viewLifecycleOwner, Observer {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        binding.apply {
-                            progressBar.visibility = View.GONE
-                        }
-                        lifecycleScope.launch {
-                            // Add users from db
-                            homeViewModel.setUsers(interestId)
-                            // Load first user
-                            loadUser()
-                            // Preload pic for each user
-                            homeViewModel.users.forEach { u -> preloadPic(u.user) }
-                        }
-                    }
-                    Status.ERROR -> {
-                        binding.apply {
-                            progressBar.visibility = View.GONE
-                            Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-                    Status.LOADING -> {
-                        binding.apply {
-                            progressBar.visibility = View.VISIBLE
-                        }
-                    }
-                }
-            }
+    private fun observe() {
+        homeViewModel.matchesResult.observe(viewLifecycleOwner, {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
+    }
+
+    private fun getUsers(interestIds: List<Long>) {
+        lifecycleScope.launch {
+            // get from db
+            loadUsersByInterest(interestIds)
+            // if 0 in db then load from server and repeat load from db
+            if (homeViewModel.users.size == 0) {
+                homeViewModel.getUsersFromServer(interestIds).observe(viewLifecycleOwner, {
+                    it?.let { resource ->
+                        when (resource.status) {
+                            Status.SUCCESS -> {
+                                binding.apply {
+                                    progressBar.visibility = View.GONE
+                                }
+                                lifecycleScope.launch {
+                                    // Add users from db
+                                    loadUsersByInterest(interestIds)
+                                }
+                            }
+                            Status.ERROR -> {
+                                binding.apply {
+                                    progressBar.visibility = View.GONE
+                                    Snackbar.make(
+                                        requireView(),
+                                        it.message.toString(),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                            Status.LOADING -> {
+                                binding.apply {
+                                    progressBar.visibility = View.VISIBLE
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
     }
 
     private fun loadUser() {
@@ -112,13 +139,7 @@ class HomeFragment : DaggerFragment() {
                 loadPic(u.user)
             }
         } else {
-            with(binding) {
-                // TODO no users left
-                usernameTextView.text = ""
-                descriptionTextView.text = ""
-                userImageView.setImageBitmap(null)
-                interestsAdapter?.clearData()
-            }
+            showNoUsersLeft()
         }
     }
 
@@ -154,6 +175,33 @@ class HomeFragment : DaggerFragment() {
             .signature(ObjectKey(userEntity.imageToken))
             .thumbnail(0.1f)
             .into(binding.userImageView)
+    }
+
+    private fun showNoUsersLeft() {
+        with(binding) {
+            scrollView.visibility = View.INVISIBLE
+            noUsersView.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showUsers() {
+        with(binding) {
+            scrollView.visibility = View.VISIBLE
+            noUsersView.visibility = View.GONE
+        }
+    }
+
+    private suspend fun loadUsersByInterest(interestIds: List<Long>) {
+        homeViewModel.setUsers(interestIds)
+        if (homeViewModel.users.size > 0) {
+            showUsers()
+            // Load first user
+            loadUser()
+            // Preload pic for each user
+            homeViewModel.users.forEach { u -> preloadPic(u.user) }
+        } else {
+            showNoUsersLeft()
+        }
     }
 
     override fun onAttach(context: Context) {

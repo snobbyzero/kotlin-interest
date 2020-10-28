@@ -28,29 +28,24 @@ class HomeViewModel @Inject constructor(
     val user = sessionManager.getUser()!!
     var currentUser: UserWithInterests? = null
     var users: ArrayList<UserWithInterests> = ArrayList()
-    val usersLoaded = MutableLiveData(false)
-    val matchesResult = MutableLiveData<HashMap<UserWithInterests, String>>()
+    val matchesResult = MutableLiveData<String>()
     private var count = 0
 
-    init {
-        matchesResult.value = HashMap()
-    }
 
-    suspend fun setUsers(interestId: Long) {
+    suspend fun setUsers(interestIds: List<Long>) {
         // get list from db
-        usersLoaded.postValue(false)
-        users.addAll(userRepository.getUsersByInterest(interestId))
-        usersLoaded.postValue(true)
+        users.addAll(userRepository.getUsersByInterest(interestIds))
     }
 
-    fun getUsersFromDb(interestId: Long) = liveData(Dispatchers.IO) {
+    // load from server and save in local db
+    fun getUsersFromServer(interestIds: List<Long>) = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
         try {
             emit(
                 Resource.success(
                     data = userRepository.insert(
                         user.id,
-                        interestId
+                        interestIds
                     )
                 )
             )
@@ -74,11 +69,10 @@ class HomeViewModel @Inject constructor(
         currentUser?.let {
             val likedId = it.user.id
             viewModelScope.launch {
-                matchesResult.value!![it] = matchRetrofitService.addMatch(
+                matchesResult.postValue(matchRetrofitService.addMatch(
                     Match(null, user.id, likedId)
-                )
-                matchesResult.value = matchesResult.value
-                // TODO переместить удаление и удалять картинку из кэша
+                ))
+                // TODO Добавлять в историю
                 userRepository.delete(it.user)
             }
         }
@@ -86,7 +80,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun dislike() {
-
+        currentUser?.let {
+            viewModelScope.launch {
+                userRepository.delete(it.user)
+            }
+        }
     }
 
 }

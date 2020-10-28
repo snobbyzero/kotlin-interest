@@ -1,4 +1,4 @@
-package com.example.kotlin_interest.interests_adapter
+package com.example.kotlin_interest.view.interests_adapter
 
 import android.view.LayoutInflater
 import android.view.View

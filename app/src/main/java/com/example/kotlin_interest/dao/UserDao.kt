@@ -13,8 +13,8 @@ abstract class UserDao {
     abstract fun getUsers() : LiveData<List<UserWithInterests>>
 
     @Transaction
-    @Query("SELECT * FROM User u JOIN UserInterest ui ON u.id = ui.userId AND ui.interestId = :interestId")
-    abstract suspend fun getUsersByInterest(interestId: Long) : List<UserWithInterests>
+    @Query("SELECT DISTINCT * FROM User u JOIN UserInterest ui ON u.id = ui.userId AND ui.interestId IN (:interestIds) GROUP BY u.id")
+    abstract suspend fun getUsersByInterests(interestIds: List<Long>) : List<UserWithInterests>
 
     suspend fun insert(users: List<UserWithInterests>) {
         for (u: UserWithInterests in users) {

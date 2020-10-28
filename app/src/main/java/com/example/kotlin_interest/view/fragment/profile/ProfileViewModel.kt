@@ -14,13 +14,11 @@ import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(private val sessionManager: SessionManager, private val networkUtil: NetworkUtil, private val app: Application) : ViewModel()  {
 
-    var user = MutableLiveData<User?>(User("username", "pswd", -1, "email",  "description"))
-    var imagePath: String? = null
+    var user = MutableLiveData<User>()
     var imageToken: String? = null
 
     init {
-        user.postValue(sessionManager.getUser())
-        imagePath = networkUtil.getUserImageUrl(user.value!!.id)
+        updateUser()
         imageToken = sessionManager.getImageToken()
     }
 
@@ -32,4 +30,6 @@ class ProfileViewModel @Inject constructor(private val sessionManager: SessionMa
     fun updateUser() {
         user.postValue(sessionManager.getUser())
     }
+
+    fun getImageUrl() = networkUtil.getUserImageUrl(user.value!!.id)
 }

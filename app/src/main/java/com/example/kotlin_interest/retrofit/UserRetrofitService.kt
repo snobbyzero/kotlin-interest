@@ -14,5 +14,5 @@ interface UserRetrofitService {
     suspend fun postDescription(@Path("userId") userId: Long, @Query("description") description: String)
 
     @GET("/user/{userId}/list")
-    suspend fun getUsersByInterest(@Path("userId") userId: Long, @Query("interestId") interestId: Long) : List<User>
+    suspend fun getUsersByInterests(@Path("userId") userId: Long, @Query("interestIds") interestId: List<Long>) : List<User>
 }
